@@ -2,10 +2,10 @@ const express = require('express');
 
 const router = express.Router();
 
-const usersRoute = require('../../controllers/users/users');
-const userRoute = require('../../controllers/users/user');
+const usersRoute = require('../controllers/user/users');
+const userRoute = require('../controllers/user/user');
 // const loginRoute = require('./usersData/login');
-const registerRoute = require('../../controllers/users/register');
+const registerRoute = require('../controllers/user/register');
 
 /* GET home page. */
 router.get('/', (req, res) => {
