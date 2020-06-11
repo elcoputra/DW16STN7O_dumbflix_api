@@ -1,4 +1,5 @@
 const { user } = require('../../models');
+// const { encryptPass } = require ('../../api/middlwares/encryptor');
 
 exports.create = async (req, res) => {
   try {
