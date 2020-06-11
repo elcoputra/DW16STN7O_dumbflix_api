@@ -4,7 +4,6 @@ const router = express.Router();
 
 const usersRoute = require('../controllers/user/users');
 const deleteUserRoute = require('../controllers/user/delete');
-// const userRoute = require('../controllers/user/user');
 const loginRoute = require('../controllers/user/login');
 const rigisterRoute = require('../controllers/user/register');
 const {
@@ -13,6 +12,7 @@ const {
 } = require('./middlwares/validator');
 const { encryptPass, decryptPass } = require('./middlwares/encryptor');
 const { getToken } = require('./middlwares/token');
+const { authenticatingUser } = require('./middlwares/authenticator');
 
 /* GET home page. */
 router.get('/', (req, res) => {
@@ -21,13 +21,10 @@ router.get('/', (req, res) => {
 
 // Routing
 // baca user
-router.get('/users', usersRoute.reads);
+router.get('/users', authenticatingUser, usersRoute.reads);
 
 // delete user
 router.delete('/user/delete/:id', deleteUserRoute.deleteUser);
-
-// baca user /id (skip dulu gak di suruh)
-// router.get('/user/:id', userRoute.read);
 
 // login ( -> cek required value -> cek data user di database (sambil bawa datanya
 // -> cocokan password tidak di encrypt dengan yang di encryt) )
@@ -36,7 +33,7 @@ router.post(
   validatingLogin,
   loginRoute.checkingDataUser,
   decryptPass,
-  getToken
+  getToken,
 );
 
 // Register ( cek required value -> encrypt password - > masukan ke database )
@@ -45,7 +42,7 @@ router.post(
   validatingRegister,
   encryptPass,
   rigisterRoute.create,
-  getToken
+  getToken,
 );
 
 module.exports = router;
