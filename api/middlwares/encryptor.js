@@ -14,13 +14,14 @@ exports.encryptPass = async (req, res, next) => {
   }
 };
 
-exports.decryptPass = async (req, res) => {
+exports.decryptPass = async (req, res, next) => {
   try {
     const { password } = req.body;
-    const decrypted = await bcrypt.compare(password, req.passwordFromDatabase.password);
+    const decrypted = await bcrypt.compare(password, req.credentialUser.password);
     if (!decrypted) return res.status(400).send({ message: 'Invalid Login' });
-    res.send({ data: req.body });
+    // res.send({ data: req.body });
+    return next();
   } catch (error) {
-    console.log(error);
+    return console.log(error);
   }
 };

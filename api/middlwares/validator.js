@@ -1,4 +1,5 @@
 const Joi = require('@hapi/joi');
+const { user } = require('../../models');
 
 exports.validatingRegister = async (req, res, next) => {
   try {
@@ -13,6 +14,15 @@ exports.validatingRegister = async (req, res, next) => {
     });
     const { error } = await schema.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });
+
+    // if email exist
+    const { email } = req.body;
+    const User = await user.findOne({
+      where: { email },
+    });
+    if (User) return res.status(400).send({ message: 'Email Exist!' });
+
+
     return next();
   } catch (error) {
     return console.log(error);

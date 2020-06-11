@@ -1,11 +1,17 @@
 const { user } = require('../../models');
 // const { encryptPass } = require ('../../api/middlwares/encryptor');
 
-exports.create = async (req, res) => {
+exports.create = async (req, res, next) => {
   try {
-    const regis = await user.create(req.body);
-    res.send({ data: regis });
+    await user.create(req.body);
+    const { email } = req.body;
+    const User = await user.findOne({
+      where: { email },
+    });
+    if (!User) return res.status(400).send({ message: 'Invalid Registration' });
+    req.credentialUser = User;
+    return next();
   } catch (error) {
-    console.log(error);
+    return console.log(error);
   }
 };

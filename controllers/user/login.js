@@ -7,7 +7,8 @@ exports.checkingDataUser = async (req, res, next) => {
       where: { email },
     });
     if (!User) return res.status(400).send({ message: 'Invalid Login' });
-    req.passwordFromDatabase = User;
+    req.credentialUser = User;
+    // req.passwordFromDatabase = User;
     return next();
   } catch (error) {
     return console.log(error);
