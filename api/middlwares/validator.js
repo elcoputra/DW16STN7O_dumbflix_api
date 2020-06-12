@@ -7,10 +7,10 @@ exports.validatingRegister = async (req, res, next) => {
       fullName: Joi.string().min(2).required(),
       email: Joi.string().email().min(13).required(),
       password: Joi.string().min(8).max(16).required(),
-      gender: Joi.allow().required(),
+      gender: Joi.string().required(),
       phone: Joi.string().min(10).required(),
-      address: Joi.allow().required(),
-      subscribe: Joi.boolean().required(),
+      address: Joi.string().required(),
+      subscribe: Joi.string().required(),
     });
     const { error } = await schema.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });
