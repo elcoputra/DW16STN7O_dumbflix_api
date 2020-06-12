@@ -10,6 +10,7 @@ const transactionsRoute = require('../controllers/transaction/transactions');
 const transactionRoute = require('../controllers/transaction/transaction');
 const addTransactionRoute = require('../controllers/transaction/add');
 const updateTransactionRoute = require('../controllers/transaction/update');
+const deleteTransactionRoute = require('../controllers/transaction/delete')
 const {
   validatingRegister,
   validatingLogin,
@@ -25,9 +26,19 @@ router.get('/', (req, res) => {
 });
 
 // Routing
+
+// ### USER ### //
 // baca user
 router.get('/users', authenticatingUser, usersRoute.reads);
+// delete user
+router.delete('/user/delete/:id', deleteUserRoute.deleteUser);
+// login ( -> cek required value -> cek data user di database (sambil bawa datanya
+// -> cocokan password tidak di encrypt dengan yang di encryt) )
+router.post('/login', validatingLogin, loginRoute.checkingDataUser, decryptPass, getToken);
+// Register ( cek required value -> encrypt password - > masukan ke database )
+router.post('/register', validatingRegister, encryptPass, rigisterRoute.create, getToken);
 
+// ### TRANSACTION ### //
 // transactions
 router.get('/transactions', transactionsRoute.reads);
 // transaction create
@@ -39,14 +50,8 @@ router.post(
   transactionRoute.reads,
 );
 // transaction update
-router.patch('/transaction/update/:id', updateTransactionRoute.update);
-
-// delete user
-router.delete('/user/delete/:id', deleteUserRoute.deleteUser);
-// login ( -> cek required value -> cek data user di database (sambil bawa datanya
-// -> cocokan password tidak di encrypt dengan yang di encryt) )
-router.post('/login', validatingLogin, loginRoute.checkingDataUser, decryptPass, getToken);
-// Register ( cek required value -> encrypt password - > masukan ke database )
-router.post('/register', validatingRegister, encryptPass, rigisterRoute.create, getToken);
+router.patch('/transaction/update/:id', authenticatingUser, updateTransactionRoute.update);
+// delete transaction
+router.delete('/transaction/delete/:id' , deleteTransactionRoute.deleteTransaction);
 
 module.exports = router;
