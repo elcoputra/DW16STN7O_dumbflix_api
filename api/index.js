@@ -6,6 +6,7 @@ const usersRoute = require('../controllers/user/users');
 const deleteUserRoute = require('../controllers/user/delete');
 const loginRoute = require('../controllers/user/login');
 const rigisterRoute = require('../controllers/user/register');
+const transactionsRoute = require('../controllers/transaction/transactions');
 const {
   validatingRegister,
   validatingLogin,
@@ -22,6 +23,9 @@ router.get('/', (req, res) => {
 // Routing
 // baca user
 router.get('/users', authenticatingUser, usersRoute.reads);
+
+// transaction
+router.get('/transactions', transactionsRoute.reads);
 
 // delete user
 router.delete('/user/delete/:id', deleteUserRoute.deleteUser);
