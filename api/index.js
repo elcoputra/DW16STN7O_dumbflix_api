@@ -33,6 +33,12 @@ const addCategoryRoute = require('../controllers/category/add');
 const updateCategoryRoute = require('../controllers/category/update');
 const deleteCategoryRoute = require('../controllers/category/delete');
 
+// ## MOVIE ## //
+const moviesRouter = require('../controllers/movie/movies');
+
+// ## EPISODE ## //
+const episodesRouter = require('../controllers/episode/episodes');
+
 // ################# Routing ################# //
 
 /* GET home page. */
@@ -69,6 +75,10 @@ router.post('/category/add', authenticatingUser, validatingAddCategory, addCateg
 router.patch('/category/update/:id', authenticatingUser, updateCategoryRoute.update);
 router.delete('/category/delete/:id', authenticatingUser, deleteCategoryRoute.deletecategory);
 
+// ### Movie ### //
+router.get('/movies', moviesRouter.reads);
 
+// ### EPISODE ### //
+router.get('/episodes', episodesRouter.reads);
 
 module.exports = router;
