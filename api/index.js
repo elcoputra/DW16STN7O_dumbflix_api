@@ -52,6 +52,6 @@ router.post(
 // transaction update
 router.patch('/transaction/update/:id', authenticatingUser, updateTransactionRoute.update);
 // delete transaction
-router.delete('/transaction/delete/:id' , deleteTransactionRoute.deleteTransaction);
+router.delete('/transaction/delete/:id' , authenticatingUser, deleteTransactionRoute.deleteTransaction);
 
 module.exports = router;
