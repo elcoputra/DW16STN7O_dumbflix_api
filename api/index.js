@@ -2,46 +2,52 @@ const express = require('express');
 
 const router = express.Router();
 
-const usersRoute = require('../controllers/user/users');
-const deleteUserRoute = require('../controllers/user/delete');
-const loginRoute = require('../controllers/user/login');
-const rigisterRoute = require('../controllers/user/register');
-const transactionsRoute = require('../controllers/transaction/transactions');
-const transactionRoute = require('../controllers/transaction/transaction');
-const addTransactionRoute = require('../controllers/transaction/add');
-const updateTransactionRoute = require('../controllers/transaction/update');
-const deleteTransactionRoute = require('../controllers/transaction/delete')
+// ## MIDLEWARE ## //
 const {
   validatingRegister,
   validatingLogin,
   validatingAddTransaction,
+  validatingDeleteTransaction,
+  validatingAddCategory,
 } = require('./middlwares/validator');
 const { encryptPass, decryptPass } = require('./middlwares/encryptor');
 const { getToken } = require('./middlwares/token');
 const { authenticatingUser } = require('./middlwares/authenticator');
+
+// ## USER ## //
+const usersRoute = require('../controllers/user/users');
+const deleteUserRoute = require('../controllers/user/delete');
+const loginRoute = require('../controllers/user/login');
+const rigisterRoute = require('../controllers/user/register');
+
+// ## TRANSACTION ## //
+const transactionRoute = require('../controllers/transaction/transaction');
+const transactionsRoute = require('../controllers/transaction/transactions');
+const addTransactionRoute = require('../controllers/transaction/add');
+const updateTransactionRoute = require('../controllers/transaction/update');
+const deleteTransactionRoute = require('../controllers/transaction/delete');
+
+// ## CATEGORY ## //
+const categoiresRoute = require('../controllers/category/categories');
+const addCategoryRoute = require('../controllers/category/add');
+const updateCategoryRoute = require('../controllers/category/update');
+const deleteCategoryRoute = require('../controllers/category/delete');
+
+// ################# Routing ################# //
 
 /* GET home page. */
 router.get('/', (req, res) => {
   res.render('index', { title: 'DUMBFLIX API' });
 });
 
-// Routing
-
 // ### USER ### //
-// baca user
 router.get('/users', authenticatingUser, usersRoute.reads);
-// delete user
 router.delete('/user/delete/:id', deleteUserRoute.deleteUser);
-// login ( -> cek required value -> cek data user di database (sambil bawa datanya
-// -> cocokan password tidak di encrypt dengan yang di encryt) )
 router.post('/login', validatingLogin, loginRoute.checkingDataUser, decryptPass, getToken);
-// Register ( cek required value -> encrypt password - > masukan ke database )
 router.post('/register', validatingRegister, encryptPass, rigisterRoute.create, getToken);
 
 // ### TRANSACTION ### //
-// transactions
 router.get('/transactions', transactionsRoute.reads);
-// transaction create
 router.post(
   '/transaction/add',
   validatingAddTransaction,
@@ -49,9 +55,20 @@ router.post(
   addTransactionRoute.create,
   transactionRoute.reads,
 );
-// transaction update
 router.patch('/transaction/update/:id', authenticatingUser, updateTransactionRoute.update);
-// delete transaction
-router.delete('/transaction/delete/:id' , authenticatingUser, deleteTransactionRoute.deleteTransaction);
+router.delete(
+  '/transaction/delete/:id',
+  authenticatingUser,
+  validatingDeleteTransaction, // validator ini belum di coba.
+  deleteTransactionRoute.deleteTransaction,
+);
+
+// ### Category ## //
+router.get('/categories', categoiresRoute.reads);
+router.post('/category/add', authenticatingUser, validatingAddCategory, addCategoryRoute.create);
+router.patch('/category/update/:id', authenticatingUser, updateCategoryRoute.update);
+router.delete('/category/delete/:id', authenticatingUser, deleteCategoryRoute.deletecategory);
+
+
 
 module.exports = router;

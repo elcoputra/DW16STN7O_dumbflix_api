@@ -6,7 +6,14 @@ exports.reads = async (req, res) => {
   try {
     // ini di bawah metode ngambil data buat yang sudah di assosiation
     const userdata = await transaction.findAll({
-      include: user,
+      include: [
+        {
+          model: user,
+          attributes: {
+            exclude: ['createdAt', 'updatedAt', 'userId'],
+          },
+        },
+      ],
       attributes: {
         exclude: ['createdAt', 'updatedAt', 'userId'],
       },
