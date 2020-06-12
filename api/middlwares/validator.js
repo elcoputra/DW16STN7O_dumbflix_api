@@ -1,5 +1,5 @@
 const Joi = require('@hapi/joi');
-const { user } = require('../../models');
+const { user, transaction } = require('../../models');
 
 exports.validatingRegister = async (req, res, next) => {
   try {
@@ -22,7 +22,6 @@ exports.validatingRegister = async (req, res, next) => {
     });
     if (User) return res.status(400).send({ message: 'Email Exist!' });
 
-
     return next();
   } catch (error) {
     return console.log(error);
@@ -37,6 +36,33 @@ exports.validatingLogin = async (req, res, next) => {
     });
     const { error } = await schema.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });
+    return next();
+  } catch (error) {
+    return console.log(error);
+  }
+};
+
+exports.validatingAddTransaction = async (req, res, next) => {
+  try {
+    const schema = Joi.object({
+      startDate: Joi.string().required(),
+      dueDate: Joi.string().min(8).required(),
+      userId: Joi.number().required(),
+      attache: Joi.string().required(),
+      status: Joi.string().required(),
+    });
+    const { error } = await schema.validate(req.body);
+    if (error) return res.status(400).json({ error: error.details[0].message });
+
+    const { userId } = req.body;
+    const UserId = await transaction.findOne({
+      where: { userId },
+    });
+    if (!UserId)
+      return res.status(400).send({
+        message: 'userId is user, but the user was not found in accordance with the userId given',
+      });
+
     return next();
   } catch (error) {
     return console.log(error);
