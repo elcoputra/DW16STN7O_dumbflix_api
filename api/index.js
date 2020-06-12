@@ -7,6 +7,7 @@ const deleteUserRoute = require('../controllers/user/delete');
 const loginRoute = require('../controllers/user/login');
 const rigisterRoute = require('../controllers/user/register');
 const transactionsRoute = require('../controllers/transaction/transactions');
+const transactionRoute = require('../controllers/transaction/transaction')
 const addTransactionRoute = require('../controllers/transaction/add');
 const {
   validatingRegister,
@@ -34,6 +35,7 @@ router.post(
   validatingAddTransaction,
   authenticatingUser,
   addTransactionRoute.create,
+  transactionRoute.reads
 );
 
 // delete user
