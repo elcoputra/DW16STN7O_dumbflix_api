@@ -34,7 +34,11 @@ const updateCategoryRoute = require('../controllers/category/update');
 const deleteCategoryRoute = require('../controllers/category/delete');
 
 // ## MOVIE ## //
+const movieRouter = require('../controllers/movie/movie');
 const moviesRouter = require('../controllers/movie/movies');
+const addMovieRouter = require('../controllers/movie/add');
+const updateMovieRouter = require('../controllers/movie/update');
+const deleteMovieRouter = require('../controllers/movie/delete')
 
 // ## EPISODE ## //
 const episodesRouter = require('../controllers/episode/episodes');
@@ -77,6 +81,10 @@ router.delete('/category/delete/:id', authenticatingUser, deleteCategoryRoute.de
 
 // ### Movie ### //
 router.get('/movies', moviesRouter.reads);
+router.get('/movie/:id', movieRouter.reads);
+router.post('/movie/add', authenticatingUser, addMovieRouter.create);
+router.patch('/movie/update/:id', authenticatingUser, updateMovieRouter.update);
+router.delete('/movie/delete/:id', authenticatingUser, deleteMovieRouter.delete);
 
 // ### EPISODE ### //
 router.get('/episodes', episodesRouter.reads);
