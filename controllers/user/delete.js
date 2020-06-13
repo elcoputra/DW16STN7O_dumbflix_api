@@ -8,7 +8,9 @@ exports.deleteUser = async (req, res) => {
   });
   if (!report) return res.status(400).send({ message: 'The id you provided does not exist' });
   res.send({
+    
     data: {
+      status: 'User Deleted',
       id: req.params.id,
     },
   });

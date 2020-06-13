@@ -1,4 +1,4 @@
-const { episode } = require('../../models');
+const { episode, movie, category } = require('../../models');
 
 exports.update = async (req, res) => {
   const report = await episode.update(req.body, {

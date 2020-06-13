@@ -17,7 +17,8 @@ module.exports = {
         },
       },
       title: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       thumbnailFilm: {
         type: Sequelize.STRING

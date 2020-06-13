@@ -4,6 +4,11 @@ const jwt = require('jsonwebtoken');
 
 exports.getToken = async (req, res) => {
   try {
+    // logic untuk nanti
+    // kalo role admin dapet token admin, kalo user dapet token regular
+    // atau
+    // kalo admin dapet token, kalo user tidak dapat token
+
     const { email } = req.body;
     const idUser = req.credentialUser.id;
     const token = jwt.sign({ id: idUser }, process.env.TOKEN_KEY);
