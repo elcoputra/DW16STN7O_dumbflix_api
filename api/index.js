@@ -38,12 +38,16 @@ const movieRouter = require('../controllers/movie/movie');
 const moviesRouter = require('../controllers/movie/movies');
 const addMovieRouter = require('../controllers/movie/add');
 const updateMovieRouter = require('../controllers/movie/update');
-const deleteMovieRouter = require('../controllers/movie/delete')
+const deleteMovieRouter = require('../controllers/movie/delete');
 
 // ## EPISODE ## //
+const episodeRouter = require('../controllers/episode/episode');
 const episodesRouter = require('../controllers/episode/episodes');
+const addEpisodeRouter = require('../controllers/episode/add');
+const updateEpisodeRouter = require('../controllers/episode/update');
+const deleteEpisodeRouter = require('../controllers/episode/delete');
 
-// ################# Routing ################# //
+// ################################## Routing ################################## //
 
 /* GET home page. */
 router.get('/', (req, res) => {
@@ -87,6 +91,10 @@ router.patch('/movie/update/:id', authenticatingUser, updateMovieRouter.update);
 router.delete('/movie/delete/:id', authenticatingUser, deleteMovieRouter.delete);
 
 // ### EPISODE ### //
-router.get('/episodes', episodesRouter.reads);
+router.get('/episodes/:movieId', episodesRouter.reads);
+router.get('/movie/:movieId/episode/:id', episodeRouter.reads);
+router.post('/episode/add', addEpisodeRouter.create);
+router.patch('/episode/update/:id', updateEpisodeRouter.update);
+router.delete('/episode/delete/:id', deleteEpisodeRouter.delete);
 
 module.exports = router;

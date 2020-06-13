@@ -6,9 +6,10 @@ const { episode } = require('../../models');
 exports.reads = async (req, res) => {
   try {
     // ini di bawah metode ngambil data buat yang sudah di assosiation
-    const episodesData = await episode.findAll({
+    const episodesData = await episode.findOne({
       where: {
         movieId: req.params.movieId,
+        Id: req.params.id,
       },
       include: [
         {

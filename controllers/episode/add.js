@@ -1,14 +1,14 @@
-const { category } = require('../../models');
 const { movie } = require('../../models');
+const { category } = require('../../models');
 const { episode } = require('../../models');
 
-/* GET users listing. */
-exports.reads = async (req, res) => {
+exports.create = async (req, res, next) => {
   try {
-    // ini di bawah metode ngambil data buat yang sudah di assosiation
-    const episodesData = await episode.findAll({
+    const feedback = await episode.create(req.body);
+    const { id } = feedback;
+    const detail = await episode.findOne({
       where: {
-        movieId: req.params.movieId,
+        Id: id,
       },
       include: [
         {
@@ -30,8 +30,10 @@ exports.reads = async (req, res) => {
         exclude: ['createdAt', 'updatedAt', 'movieId'],
       },
     });
-    res.send({ data: episodesData });
+    res.send({
+      data: detail,
+    });
   } catch (error) {
-    console.log(error);
+    return console.log(error);
   }
 };
