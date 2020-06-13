@@ -6,6 +6,7 @@ exports.delete = async (req, res) => {
       },
     });
     res.send({
+      message : "Sucsess",
       data: {
         id: req.params.id,
       },

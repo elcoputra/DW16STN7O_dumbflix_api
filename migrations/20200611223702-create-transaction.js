@@ -8,12 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      startDate: {
-        type: Sequelize.STRING,
-      },
-      dueDate: {
-        type: Sequelize.STRING,
-      },
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -23,6 +17,12 @@ module.exports = {
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
+      },
+      startDate: {
+        type: Sequelize.STRING,
+      },
+      dueDate: {
+        type: Sequelize.STRING,
       },
       attache: {
         type: Sequelize.STRING,
