@@ -1,24 +1,24 @@
-const { transaction } = require('../../models');
-const { user } = require('../../models');
+const { movie } = require('../../models');
+const { category } = require('../../models');
 
 /* GET users listing. */
 exports.reads = async (req, res) => {
   try {
     // ini di bawah metode ngambil data buat yang sudah di assosiation
-    const userdata = await transaction.findAll({
+    const moviesData = await movie.findAll({
       include: [
         {
-          model: user,
+          model: category,
           attributes: {
-            exclude: ['createdAt', 'updatedAt', 'userId'],
+            exclude: ['createdAt', 'updatedAt'],
           },
         },
       ],
       attributes: {
-        exclude: ['createdAt', 'updatedAt', 'userId'],
+        exclude: ['createdAt', 'updatedAt', 'categoryId'],
       },
     });
-    res.send({ data: userdata });
+    res.send({ data: moviesData });
   } catch (error) {
     console.log(error);
   }
