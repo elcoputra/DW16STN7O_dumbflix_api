@@ -7,6 +7,7 @@ exports.validatingRegister = async (req, res, next) => {
       fullName: Joi.string().min(2).required(),
       email: Joi.string().email().min(13).required(),
       password: Joi.string().min(8).max(16).required(),
+      isAdmin: Joi.boolean().required(),
       gender: Joi.string().required(),
       phone: Joi.string().min(10).required(),
       address: Joi.string().required(),
@@ -77,7 +78,7 @@ exports.validatingAddTransaction = async (req, res, next) => {
     });
     if (!UserId)
       return res.status(400).send({
-        status : 'failed',
+        status: 'failed',
         message: 'userId is user, but the user was not found in accordance with the userId given',
       });
 

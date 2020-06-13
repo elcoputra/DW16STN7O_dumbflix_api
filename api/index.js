@@ -22,7 +22,7 @@ const {
 } = require('./middlwares/validator');
 const { encryptPass, decryptPass } = require('./middlwares/encryptor');
 const { getToken } = require('./middlwares/token');
-const { authenticatingUser } = require('./middlwares/authenticator');
+const { authenticatingUser, authenticatingAdmin } = require('./middlwares/authenticator');
 
 // ## USER ## //
 const usersRoute = require('../controllers/user/users');
@@ -65,35 +65,35 @@ router.get('/', (req, res) => {
 });
 
 // ### USER ### //
-router.get('/users', usersRoute.reads);
+router.get('/users', authenticatingAdmin, usersRoute.reads);
 router.post('/login', validatingLogin, loginRoute.checkingDataUser, decryptPass, getToken);
 router.post('/register', validatingRegister, encryptPass, rigisterRoute.create, getToken);
-router.delete('/user/:id', authenticatingUser, validatingDeleteUser, deleteUserRoute.deleteUser);
+router.delete('/user/:id', authenticatingAdmin, validatingDeleteUser, deleteUserRoute.deleteUser);
 
 // ### TRANSACTION ### //
-router.get('/transactions', transactionsRoute.reads);
-router.post('/transaction', authenticatingUser, validatingAddTransaction, addTransactionRoute.create);
-router.patch('/transaction/:id', authenticatingUser, validatingUpdateTransaction, updateTransactionRoute.update);
-router.delete('/transaction/:id', authenticatingUser, validatingDeleteTransaction, deleteTransactionRoute.deleteTransaction);
+router.get('/transactions', authenticatingAdmin, transactionsRoute.reads);
+router.post('/transaction', authenticatingAdmin, validatingAddTransaction, addTransactionRoute.create);
+router.patch('/transaction/:id', authenticatingAdmin, validatingUpdateTransaction, updateTransactionRoute.update);
+router.delete('/transaction/:id', authenticatingAdmin, validatingDeleteTransaction, deleteTransactionRoute.deleteTransaction);
 
 // ### Category ## //
-router.get('/categories', categoiresRoute.reads);
-router.post('/category', authenticatingUser, validatingAddCategory, addCategoryRoute.create);
-router.patch('/category/:id', authenticatingUser, validatingUpdateCategory, updateCategoryRoute.update);
-router.delete('/category/:id', authenticatingUser, validatingDeleteCategory, deleteCategoryRoute.deletecategory);
+router.get('/categories', authenticatingUser, categoiresRoute.reads);
+router.post('/category', authenticatingAdmin, validatingAddCategory, addCategoryRoute.create);
+router.patch('/category/:id', authenticatingAdmin, validatingUpdateCategory, updateCategoryRoute.update);
+router.delete('/category/:id', authenticatingAdmin, validatingDeleteCategory, deleteCategoryRoute.deletecategory);
 
 // ### Movie ### //
-router.get('/movies', moviesRouter.reads);
-router.get('/movie/:id', movieRouter.reads);
-router.post('/movie', authenticatingUser, validatingAddMovie, addMovieRouter.create);
-router.patch('/movie/:id', authenticatingUser, validatingUpdateMovie, updateMovieRouter.update);
-router.delete('/movie/:id', authenticatingUser, validatingDeleteMovie, deleteMovieRouter.delete);
+router.get('/movies', authenticatingUser, moviesRouter.reads);
+router.get('/movie/:id', authenticatingUser, movieRouter.reads);
+router.post('/movie', authenticatingAdmin, validatingAddMovie, addMovieRouter.create);
+router.patch('/movie/:id', authenticatingAdmin, validatingUpdateMovie, updateMovieRouter.update);
+router.delete('/movie/:id', authenticatingAdmin, validatingDeleteMovie, deleteMovieRouter.delete);
 
 // ### EPISODE ### //
-router.get('/movie/:movieId/episodes', episodesRouter.reads);
-router.get('/movie/:movieId/episode/:id', episodeRouter.reads);
-router.post('/episode', authenticatingUser, validatingAddEpisodes, addEpisodeRouter.create);
-router.patch('/episode/:id', authenticatingUser, validatingUpdateEpisode, updateEpisodeRouter.update);
-router.delete('/episode/:id', authenticatingUser, validatingDeleteEpisode, deleteEpisodeRouter.delete);
+router.get('/movie/:movieId/episodes', authenticatingUser, episodesRouter.reads);
+router.get('/movie/:movieId/episode/:id', authenticatingUser, episodeRouter.reads);
+router.post('/episode', authenticatingAdmin, validatingAddEpisodes, addEpisodeRouter.create);
+router.patch('/episode/:id', authenticatingAdmin, validatingUpdateEpisode, updateEpisodeRouter.update);
+router.delete('/episode/:id', authenticatingAdmin, validatingDeleteEpisode, deleteEpisodeRouter.delete);
 
 module.exports = router;
