@@ -1,28 +1,15 @@
-const todos = [
-  {
-    id: 1,
-    title: 'Cuci tangan',
-    isDone: false,
-  },
-  {
-    id: 2,
-    title: 'Jaga jarak',
-    isDone: true,
-  },
-  {
-    id: 3,
-    title: 'Pakai masker',
-    isDone: false,
-  },
-];
+const { user } = require('../../models');
 
-// exports.user = async (req, res) => {
-//   const { id } = req.params;
-//   const index = id - 1;
-//   res.send(todos[index]);
-// };
-exports.read = (req, res) => {
-  const { id } = req.params;
-  const index = id;
-  res.send(todos[index]);
+/* GET users listing. */
+exports.reads = async (req, res) => {
+  try {
+    const userdata = await user.findOne({
+      where : {
+        id: req.params.id
+      }
+    });
+    return res.send({ data: userdata });
+  } catch (error) {
+    return res.send({error});
+  }
 };

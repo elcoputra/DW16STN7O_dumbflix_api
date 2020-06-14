@@ -1,6 +1,7 @@
 const Joi = require('@hapi/joi');
 const { user, transaction, category, movie, episode } = require('../../models');
 
+// ### USER ### //
 exports.validatingRegister = async (req, res, next) => {
   try {
     const schema = Joi.object({
@@ -46,6 +47,11 @@ exports.validatingLogin = async (req, res, next) => {
 exports.validatingDeleteUser = async (req, res, next) => {
   try {
     const { id } = req.params;
+    if (id != parseInt(req.params.id, 10)) {
+      return res.status(400).send({
+        message: 'Something wrong with params id on your endpoint url',
+      });
+    }
     const detectUser = await user.findOne({
       where: { id: id },
     });
@@ -60,6 +66,7 @@ exports.validatingDeleteUser = async (req, res, next) => {
   }
 };
 
+// ### TRANSACTION ### //
 exports.validatingAddTransaction = async (req, res, next) => {
   try {
     const schema = Joi.object({
@@ -76,10 +83,19 @@ exports.validatingAddTransaction = async (req, res, next) => {
     const UserId = await transaction.findOne({
       where: { userId },
     });
-    if (!UserId)
+    if (UserId)
       return res.status(400).send({
         status: 'failed',
-        message: 'userId is user, but the user was not found in accordance with the userId given',
+        message: 'userId already has a data transaction, it must be edited rather than adding a new one',
+      });
+
+    const idUser = await user.findOne({
+      where: { id: userId },
+    });
+    if (!idUser)
+      return res.status(400).send({
+        status: 'failed',
+        message: 'The user id you provided does not exist, please add a new user',
       });
 
     return next();
@@ -91,13 +107,45 @@ exports.validatingAddTransaction = async (req, res, next) => {
 exports.validatingUpdateTransaction = async (req, res, next) => {
   try {
     const { id } = req.params;
+    if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
+      return res.status(400).send({
+        message: 'field cannot be empty',
+      });
+    }
+    if (id != parseInt(req.params.id, 10)) {
+      return res.status(400).send({
+        message: 'Something wrong with params id on your endpoint url',
+      });
+    }
+    const schema = Joi.object({
+      startDate: Joi.string().allow(),
+      dueDate: Joi.string().allow(),
+      userId: Joi.number().allow(),
+      attache: Joi.string().allow(),
+      status: Joi.string().allow(),
+    });
+    const { error } = await schema.validate(req.body);
+    if (error) return res.status(400).json({ error: error.details[0].message });
+
     const ID = await transaction.findOne({
-      where: { id },
+      where: { id: id },
     });
     if (!ID)
       return res.status(400).send({
         message: 'id transaction not found',
       });
+
+    const { userId } = req.body;
+    if (userId) {
+      const idUser = await user.findOne({
+        where: { id: userId },
+      });
+      if (!idUser)
+        return res.status(400).send({
+          status: 'failed',
+          message: 'The user id you provided does not exist, please add a new user',
+        });
+    }
 
     return next();
   } catch (error) {
@@ -108,6 +156,11 @@ exports.validatingUpdateTransaction = async (req, res, next) => {
 exports.validatingDeleteTransaction = async (req, res, next) => {
   try {
     const { id } = req.params;
+    if (id != parseInt(req.params.id, 10)) {
+      return res.status(400).send({
+        message: 'Something wrong with params id on your endpoint url',
+      });
+    }
     const ID = await transaction.findOne({
       where: { id },
     });
@@ -122,6 +175,7 @@ exports.validatingDeleteTransaction = async (req, res, next) => {
   }
 };
 
+// ### CATEGORY //
 exports.validatingAddCategory = async (req, res, next) => {
   try {
     const schema = Joi.object({
@@ -136,7 +190,7 @@ exports.validatingAddCategory = async (req, res, next) => {
     });
     if (Name)
       return res.status(400).send({
-        message: 'Category already exist!',
+        message: 'Category name already exist!',
       });
 
     return next();
@@ -147,13 +201,18 @@ exports.validatingAddCategory = async (req, res, next) => {
 
 exports.validatingUpdateCategory = async (req, res, next) => {
   try {
+    const id = req.params.id;
+    if (id != parseInt(req.params.id, 10)) {
+      return res.status(400).send({
+        message: 'Something wrong with params id on your endpoint url',
+      });
+    }
     const schema = Joi.object({
-      name: Joi.string(),
+      name: Joi.string().required(),
     });
     const { error } = await schema.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });
 
-    const id = req.params.id;
     const idCategory = await category.findOne({
       where: { id: id },
     });
@@ -171,6 +230,11 @@ exports.validatingUpdateCategory = async (req, res, next) => {
 exports.validatingDeleteCategory = async (req, res, next) => {
   try {
     const id = req.params.id;
+    if (id != parseInt(req.params.id, 10)) {
+      return res.status(400).send({
+        message: 'Something wrong with params id on your endpoint url',
+      });
+    }
     const idCategory = await category.findOne({
       where: { id: id },
     });
@@ -185,8 +249,19 @@ exports.validatingDeleteCategory = async (req, res, next) => {
   }
 };
 
+// ### MOVIE/FILM ### //
 exports.validatingAddMovie = async (req, res, next) => {
   try {
+    const schema = Joi.object({
+      categoryId: Joi.number().required(),
+      title: Joi.string().required(),
+      thumbnailFilm: Joi.string().required(),
+      year: Joi.number().required(),
+      description: Joi.string().required(),
+    });
+    const { error } = await schema.validate(req.body);
+    if (error) return res.status(400).json({ error: error.details[0].message });
+
     const { title } = req.body;
     const nameMovie = await movie.findOne({
       where: { title: title },
@@ -194,6 +269,14 @@ exports.validatingAddMovie = async (req, res, next) => {
     if (nameMovie)
       return res.status(400).send({
         message: 'Movie Title Already exist!',
+      });
+    const { categoryId } = req.body;
+    const idCategory = await category.findOne({
+      where: { id: categoryId },
+    });
+    if (!idCategory)
+      return res.status(400).send({
+        message: 'The category you provided does not exist',
       });
 
     return next();
@@ -205,6 +288,27 @@ exports.validatingAddMovie = async (req, res, next) => {
 exports.validatingUpdateMovie = async (req, res, next) => {
   try {
     const { id } = req.params;
+    if (id != parseInt(id)) {
+      return res.status(400).send({
+        message: 'Something wrong with params id on your endpoint url',
+      });
+    }
+
+    if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
+      return res.status(400).send({
+        message: 'field cannot be empty',
+      });
+    }
+    const schema = Joi.object({
+      categoryId: Joi.number().allow(),
+      title: Joi.string().allow(),
+      thumbnailFilm: Joi.string().allow(),
+      year: Joi.number().allow(),
+      description: Joi.string().allow(),
+    });
+    const { error } = await schema.validate(req.body);
+    if (error) return res.status(400).json({ error: error.details[0].message });
+
     const updateMovie = await movie.findOne({
       where: { id: id },
     });
@@ -212,6 +316,17 @@ exports.validatingUpdateMovie = async (req, res, next) => {
       return res.status(400).send({
         message: 'ID Movie Not Exist',
       });
+
+    const { categoryId } = req.body;
+    if (categoryId) {
+      const updateMovie = await category.findOne({
+        where: { id: categoryId },
+      });
+      if (!updateMovie)
+        return res.status(400).send({
+          message: 'ID Category Not Exist',
+        });
+    }
 
     return next();
   } catch (error) {
@@ -222,6 +337,11 @@ exports.validatingUpdateMovie = async (req, res, next) => {
 exports.validatingDeleteMovie = async (req, res, next) => {
   try {
     const { id } = req.params;
+    if (id != parseInt(req.params.id, 10)) {
+      return res.status(400).send({
+        message: 'Something wrong with params id on your endpoint url',
+      });
+    }
     const deleteMovie = await movie.findOne({
       where: { id: id },
     });
@@ -230,6 +350,39 @@ exports.validatingDeleteMovie = async (req, res, next) => {
         message: 'ID Movie Not Exist',
       });
 
+    return next();
+  } catch (error) {
+    return console.log(error);
+  }
+};
+
+// ### EPISODE ### //
+exports.validatingViewEpisodes = async (req, res, next) => {
+  try {
+    const { movieId } = req.params;
+    if (movieId != parseInt(req.params.movieId, 10)) {
+      return res.status(400).send({
+        message: 'Something wrong with params id on your endpoint url',
+      });
+    }
+    return next();
+  } catch (error) {
+    return console.log(error);
+  }
+};
+
+exports.validatingViewEpisode = async (req, res, next) => {
+  try {
+    if (req.params.movieId != parseInt(req.params.movieId)) {
+      return res.status(400).send({
+        message: 'Something wrong with params id on your endpoint url',
+      });
+    }
+    if (req.params.id != parseInt(req.params.id)) {
+      return res.status(400).send({
+        message: 'Something wrong with params id on your endpoint url',
+      });
+    }
     return next();
   } catch (error) {
     return console.log(error);
@@ -247,6 +400,25 @@ exports.validatingAddEpisodes = async (req, res, next) => {
     const { error } = await schema.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });
 
+    const { title } = req.body;
+    const nameEpisode = await episode.findOne({
+      where: { title: title },
+    });
+    if (nameEpisode)
+      return res.status(400).send({
+        message: 'Episode Title Already exist!',
+      });
+
+
+    const { movieId } = req.body;
+    const idMovie = await movie.findOne({
+      where: { id: movieId },
+    });
+    if (!idMovie)
+      return res.status(400).send({
+        message: 'The Movie you provided does not exist',
+      });
+
     return next();
   } catch (error) {
     return console.log(error);
@@ -255,16 +427,26 @@ exports.validatingAddEpisodes = async (req, res, next) => {
 
 exports.validatingUpdateEpisode = async (req, res, next) => {
   try {
+    const { id } = req.params;
+    if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
+      return res.status(400).send({
+        message: 'field cannot be empty',
+      });
+    }
+    if (id != parseInt(req.params.id, 10)) {
+      return res.status(400).send({
+        message: 'Something wrong with params id on your endpoint url',
+      });
+    }
     const schema = Joi.object({
-      movieId: Joi.number().required(),
-      title: Joi.string().min(2).required(),
-      linkEpisode: Joi.string().required(),
-      thumbnailEpisode: Joi.string().required(),
+      movieId: Joi.number().allow(),
+      title: Joi.string().min(2).allow(),
+      linkEpisode: Joi.string().allow(),
+      thumbnailEpisode: Joi.string().allow(),
     });
     const { error } = await schema.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });
     // validating episode id
-    const { id } = req.params;
     const updateEpisode = await episode.findOne({
       where: { id: id },
     });
@@ -291,12 +473,17 @@ exports.validatingUpdateEpisode = async (req, res, next) => {
 exports.validatingDeleteEpisode = async (req, res, next) => {
   try {
     const { id } = req.params;
+    if (id != parseInt(req.params.id, 10)) {
+      return res.status(400).send({
+        message: 'Something wrong with params id on your endpoint url',
+      });
+    }
     const deleteEpisode = await episode.findOne({
       where: { id: id },
     });
     if (!deleteEpisode)
       return res.status(400).send({
-        message: 'ID Movie Not Exist',
+        message: 'ID episode not exist',
       });
 
     return next();

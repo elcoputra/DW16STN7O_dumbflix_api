@@ -21,10 +21,11 @@ exports.create = async (req, res, next) => {
         exclude: ['createdAt', 'updatedAt', 'categoryId'],
       },
     });
-    res.send({
+    return res.send({
+      message: 'Movie successfully added',
       data: detail,
     });
   } catch (error) {
-    return console.log(error);
+    return res.send({ error });
   }
 };

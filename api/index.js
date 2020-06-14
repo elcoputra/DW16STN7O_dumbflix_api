@@ -19,6 +19,8 @@ const {
   validatingAddEpisodes,
   validatingUpdateEpisode,
   validatingDeleteEpisode,
+  validatingViewEpisode,
+  validatingViewEpisodes,
 } = require('./middlwares/validator');
 const { encryptPass, decryptPass } = require('./middlwares/encryptor');
 const { getToken } = require('./middlwares/token');
@@ -26,6 +28,7 @@ const { authenticatingUser, authenticatingAdmin } = require('./middlwares/authen
 
 // ## USER ## //
 const usersRoute = require('../controllers/user/users');
+const userRoute = require('../controllers/user/user');
 const deleteUserRoute = require('../controllers/user/delete');
 const loginRoute = require('../controllers/user/login');
 const rigisterRoute = require('../controllers/user/register');
@@ -61,11 +64,12 @@ const deleteEpisodeRouter = require('../controllers/episode/delete');
 
 /* GET home page. */
 router.get('/', (req, res) => {
-  res.render('index', { title: 'DUMBFLIX API' });
+  res.render('index', { title: 'DUMBFLIX 404 Page' });
 });
 
 // ### USER ### //
 router.get('/users', authenticatingAdmin, usersRoute.reads);
+router.get('/user/:id', authenticatingUser, userRoute.reads);
 router.post('/login', validatingLogin, loginRoute.checkingDataUser, decryptPass, getToken);
 router.post('/register', validatingRegister, encryptPass, rigisterRoute.create, getToken);
 router.delete('/user/:id', authenticatingAdmin, validatingDeleteUser, deleteUserRoute.deleteUser);
@@ -90,8 +94,8 @@ router.patch('/movie/:id', authenticatingAdmin, validatingUpdateMovie, updateMov
 router.delete('/movie/:id', authenticatingAdmin, validatingDeleteMovie, deleteMovieRouter.delete);
 
 // ### EPISODE ### //
-router.get('/movie/:movieId/episodes', authenticatingUser, episodesRouter.reads);
-router.get('/movie/:movieId/episode/:id', authenticatingUser, episodeRouter.reads);
+router.get('/movie/:movieId/episodes', authenticatingUser, validatingViewEpisodes, episodesRouter.reads);
+router.get('/movie/:movieId/episode/:id', authenticatingUser, validatingViewEpisode, episodeRouter.reads);
 router.post('/episode', authenticatingAdmin, validatingAddEpisodes, addEpisodeRouter.create);
 router.patch('/episode/:id', authenticatingAdmin, validatingUpdateEpisode, updateEpisodeRouter.update);
 router.delete('/episode/:id', authenticatingAdmin, validatingDeleteEpisode, deleteEpisodeRouter.delete);
