@@ -6,13 +6,12 @@ module.exports = (sequelize, DataTypes) => {
       fullName: DataTypes.STRING,
       email: DataTypes.STRING,
       password: DataTypes.STRING,
-      isAdmin: DataTypes.BOOLEAN,
       gender: DataTypes.STRING,
       phone: DataTypes.STRING,
       address: DataTypes.STRING,
       subscribe: DataTypes.STRING,
     },
-    {},
+    {}
   );
   user.associate = function (models) {
     // ini ngasih tau user harus ke target transaksi

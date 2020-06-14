@@ -30,10 +30,11 @@ exports.create = async (req, res, next) => {
         exclude: ['createdAt', 'updatedAt', 'movieId'],
       },
     });
-    res.send({
+    return res.send({
+      message: 'Transaction data successfully created',
       data: detail,
     });
   } catch (error) {
-    return console.log(error);
+    return res.send({error});
   }
 };

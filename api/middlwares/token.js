@@ -11,7 +11,13 @@ exports.getToken = async (req, res) => {
 
     const { email } = req.body;
     const idUser = req.credentialUser.id;
-    const token = jwt.sign({ id: idUser }, process.env.TOKEN_KEY);
+    const isAdmin = req.credentialUser.isAdmin;
+    let token 
+    if(isAdmin === true){
+      token = jwt.sign({ id: idUser, isAdmin: isAdmin }, process.env.TOKEN_KEY_ADMIN);
+    }else{
+      token = jwt.sign({ id: idUser, isAdmin: isAdmin }, process.env.TOKEN_KEY);
+    }
     return res.send({
       data: {
         email,

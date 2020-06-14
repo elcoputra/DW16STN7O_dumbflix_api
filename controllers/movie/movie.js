@@ -20,8 +20,8 @@ exports.reads = async (req, res) => {
         exclude: ['createdAt', 'updatedAt', 'categoryId'],
       },
     });
-    res.send({ data: movies });
+    return res.send({ data: movies });
   } catch (error) {
-    console.log(error);
+    return res.send({ error });
   }
 };

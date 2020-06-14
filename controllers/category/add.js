@@ -3,10 +3,13 @@ const { category } = require('../../models');
 exports.create = async (req, res, next) => {
   try {
     const addCategory = await category.create(req.body);
-    res.send({
-      data: addCategory
+    return res.send({
+      message : 'successfully added one category',
+      data: {
+        name: addCategory.name
+      }
     });
   } catch (error) {
-    return console.log(error);
+    return res.send({error});
   }
 };

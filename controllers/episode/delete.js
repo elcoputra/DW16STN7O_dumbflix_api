@@ -1,14 +1,16 @@
 const { episode } = require('../../models');
+const { movie } = require('../../models');
 exports.delete = async (req, res) => {
-    await episode.destroy({
+  try {
+    const deleted = await episode.destroy({
       where: {
         id: req.params.id,
       },
     });
-    res.send({
-      message : "Sucsess",
-      data: {
-        id: req.params.id,
-      },
+    return res.send({
+      message: 'Episode with id: ' + req.params.id + ' deleted',
     });
-  };
+  } catch (error) {
+    return res.send({error});
+  }
+};

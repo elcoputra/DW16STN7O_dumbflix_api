@@ -7,14 +7,24 @@ exports.create = async (req, res, next) => {
     const { id } = trans;
     const userdata = await transaction.findOne({
       where: { id: id },
-      include: user,
+      include: [
+        {
+          model: user,
+          attributes: {
+            exclude: ['createdAt', 'updatedAt', 'userId'],
+          },
+        },
+      ],
       attributes: {
         exclude: ['createdAt', 'updatedAt', 'userId'],
       },
     });
     // res.send({ data: trans });
-    res.send({ data: userdata });
+    return res.send({
+      message: 'Transaction data successfully created',
+      data: userdata,
+    });
   } catch (error) {
-    return console.log(error);
+    return res.send({error});
   }
 };

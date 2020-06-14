@@ -13,8 +13,8 @@ exports.reads = async (req, res) => {
         exclude: ['createdAt', 'updatedAt', 'userId'],
       },
     });
-    res.send({ data: userdata });
+    return res.send({ data: userdata });
   } catch (error) {
-    console.log(error);
+    return res.send({error});
   }
 };

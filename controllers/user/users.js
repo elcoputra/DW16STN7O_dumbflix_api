@@ -4,8 +4,8 @@ const { user } = require('../../models');
 exports.reads = async (req, res) => {
   try {
     const userdata = await user.findAll();
-    res.send({ data: userdata });
+    return res.send({ data: userdata });
   } catch (error) {
-    console.log(error);
+    return res.send({error});
   }
 };

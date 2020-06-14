@@ -12,6 +12,6 @@ exports.create = async (req, res, next) => {
     req.credentialUser = User;
     return next();
   } catch (error) {
-    return console.log(error);
+    return res.send({error});
   }
 };
