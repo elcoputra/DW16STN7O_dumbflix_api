@@ -12,7 +12,7 @@ exports.validatingRegister = async (req, res, next) => {
       gender: Joi.string().required(),
       phone: Joi.string().min(10).required(),
       address: Joi.string().required(),
-      subscribe: Joi.string().required(),
+      subscribe: Joi.string().allow(),
     });
     const { error } = await schema.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });
