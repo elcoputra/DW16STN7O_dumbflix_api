@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       startDate: DataTypes.STRING,
       dueDate: DataTypes.STRING,
       userId: DataTypes.INTEGER,
-      attache: DataTypes.STRING,
+      attachment: DataTypes.STRING,
       status: DataTypes.STRING,
     },
     {}

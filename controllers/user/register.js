@@ -3,8 +3,17 @@ const { user } = require('../../models');
 
 exports.create = async (req, res, next) => {
   try {
-    await user.create(req.body);
-    const { email } = req.body;
+    const { fullName, email, password, isAdmin, gender, phone, address } = req.body;
+    await user.create({
+      fullName: fullName,
+      email: email,
+      password: password,
+      isAdmin: isAdmin,
+      gender: gender,
+      phone: phone,
+      address: address,
+      subscribe: false,
+    });
     const User = await user.findOne({
       where: { email },
     });
@@ -12,6 +21,6 @@ exports.create = async (req, res, next) => {
     req.credentialUser = User;
     return next();
   } catch (error) {
-    return res.send({error});
+    return res.send({ error });
   }
 };

@@ -4,6 +4,25 @@ const { user } = require('../../models');
 exports.update = async (req, res) => {
   try {
     
+    // logic subscribe user
+    if (req.body.status) {
+      if (req.body.status == 'Approved') {
+        await user.update(
+          { subscribe: 'true' },
+          {
+            where: { id: req.body.userId },
+          },
+        );
+      } else {
+        await user.update(
+          {subscribe: 'false'},
+          {
+          where: { id: req.body.userId }
+        });
+      }
+    }
+
+
     const report = await transaction.update(req.body, {
       where: {
         id: req.params.id,
@@ -23,7 +42,6 @@ exports.update = async (req, res) => {
         exclude: ['createdAt', 'updatedAt', 'userId'],
       },
     });
-  
     res.send({
       message: 'Succsess patching data transaction',
       transaction: data
