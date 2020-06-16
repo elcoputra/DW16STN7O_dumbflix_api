@@ -2,3 +2,5 @@
 (Log:1) + loging data update biar gak pusing
         + enum status transaction, 
         + get all transaction by user 
+
+(Log:2) + nama new feature log -> log.txt
