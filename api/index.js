@@ -25,7 +25,7 @@ const {
 } = require('./middlwares/validator');
 const { encryptPass, decryptPass } = require('./middlwares/encryptor');
 const { getToken } = require('./middlwares/token');
-const { authenticatingUser, authenticatingAdmin } = require('./middlwares/authenticator');
+const { authenticatingUser, authenticatingById, authenticatingAdmin } = require('./middlwares/authenticator');
 
 // ## USER ## //
 const usersRoute = require('../controllers/user/users');
@@ -37,7 +37,7 @@ const rigisterRoute = require('../controllers/user/register');
 // ## TRANSACTION ## //
 const transactionRoute = require('../controllers/transaction/transaction');
 const transactionsRoute = require('../controllers/transaction/transactions');
-const transactionsByUserRoute = require('../controllers/transaction/transactionsByUser')
+const transactionsByUserRoute = require('../controllers/transaction/transactionsByUser');
 const addTransactionRoute = require('../controllers/transaction/add');
 const updateTransactionRoute = require('../controllers/transaction/update');
 const deleteTransactionRoute = require('../controllers/transaction/delete');
@@ -73,7 +73,7 @@ router.get('/', (req, res) => {
 
 // ### USER ### //
 router.get('/users', authenticatingAdmin, usersRoute.reads);
-router.get('/user/:id', authenticatingUser, userRoute.reads);
+router.get('/user/:id', authenticatingById, userRoute.reads);
 router.post('/login', validatingLogin, loginRoute.checkingDataUser, decryptPass, getToken);
 router.post('/register', validatingRegister, encryptPass, rigisterRoute.create, getToken);
 router.delete('/user/:id', authenticatingAdmin, validatingDeleteUser, deleteUserRoute.deleteUser);
@@ -81,7 +81,7 @@ router.delete('/user/:id', authenticatingAdmin, validatingDeleteUser, deleteUser
 // ### TRANSACTION ### //
 router.get('/transactions', authenticatingAdmin, transactionsRoute.reads);
 router.get('/transaction/:id', authenticatingAdmin, transactionRoute.reads);
-router.get('/user/:id/transactions', authenticatingUser, transactionsByUserRoute.reads);
+router.get('/user/:id/transactions', authenticatingById, transactionsByUserRoute.reads);
 router.post('/transaction', authenticatingAdmin, validatingAddTransaction, addTransactionRoute.create);
 router.patch('/transaction/:id', authenticatingAdmin, validatingUpdateTransaction, updateTransactionRoute.update);
 router.delete('/transaction/:id', authenticatingAdmin, validatingDeleteTransaction, deleteTransactionRoute.deleteTransaction);

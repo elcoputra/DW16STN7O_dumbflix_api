@@ -4,3 +4,6 @@
         + get all transaction by user 
 
 (Log:2) + nama new feature log -> log.txt
+
+(Log:3) +- Rework auth token
+        + auth detail user id by login token id
