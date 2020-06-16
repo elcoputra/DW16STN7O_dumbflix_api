@@ -34,7 +34,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       subscribe: {
-        type: Sequelize.STRING
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,

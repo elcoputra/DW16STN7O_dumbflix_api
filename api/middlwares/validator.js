@@ -12,7 +12,7 @@ exports.validatingRegister = async (req, res, next) => {
       gender: Joi.string().required(),
       phone: Joi.string().min(10).required(),
       address: Joi.string().required(),
-      subscribe: Joi.string().allow(),
+      subscribe: Joi.boolean().allow(),
     });
     const { error } = await schema.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });
@@ -365,6 +365,27 @@ exports.validatingViewEpisodes = async (req, res, next) => {
         message: 'Something wrong with params id on your endpoint url',
       });
     }
+    return next();
+  } catch (error) {
+    return console.log(error);
+  }
+};
+
+exports.validatingViewEpisodesByCategory = async (req, res, next) => {
+  try {
+    if (req.params.categoryId != parseInt(req.params.categoryId)) {
+      return res.status(400).send({
+        message: 'Something wrong with params categoryId on your endpoint url',
+      });
+    }
+    const moviesByCategory = await movie.findOne({
+      where : {
+        categoryId : req.params.categoryId
+      }
+    })
+    if(!moviesByCategory) return await res.status(400).send({
+      message : 'Category not found, check your endpoint again'
+    })
     return next();
   } catch (error) {
     return console.log(error);

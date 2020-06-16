@@ -12,7 +12,7 @@ exports.create = async (req, res, next) => {
       gender: gender,
       phone: phone,
       address: address,
-      subscribe: 'false',
+      subscribe: false,
     });
     const User = await user.findOne({
       where: { email },

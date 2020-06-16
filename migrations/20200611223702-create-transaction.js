@@ -24,7 +24,7 @@ module.exports = {
       dueDate: {
         type: Sequelize.STRING,
       },
-      attache: {
+      attachment: {
         type: Sequelize.STRING,
       },
       status: {

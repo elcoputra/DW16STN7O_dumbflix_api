@@ -17,6 +17,7 @@ const {
   validatingUpdateMovie,
   validatingDeleteMovie,
   validatingAddEpisodes,
+  validatingViewEpisodesByCategory,
   validatingUpdateEpisode,
   validatingDeleteEpisode,
   validatingViewEpisode,
@@ -47,8 +48,9 @@ const updateCategoryRoute = require('../controllers/category/update');
 const deleteCategoryRoute = require('../controllers/category/delete');
 
 // ## MOVIE ## //
-const movieRouter = require('../controllers/movie/movie');
 const moviesRouter = require('../controllers/movie/movies');
+const movieRouter = require('../controllers/movie/movie');
+const moviesByCategory = require('../controllers/movie/movesByCategory')
 const addMovieRouter = require('../controllers/movie/add');
 const updateMovieRouter = require('../controllers/movie/update');
 const deleteMovieRouter = require('../controllers/movie/delete');
@@ -94,10 +96,12 @@ router.patch('/movie/:id', authenticatingAdmin, validatingUpdateMovie, updateMov
 router.delete('/movie/:id', authenticatingAdmin, validatingDeleteMovie, deleteMovieRouter.delete);
 
 // ### EPISODE ### //
+router.get('/category/:categoryId/movies', authenticatingUser ,validatingViewEpisodesByCategory, moviesByCategory.reads);
 router.get('/movie/:movieId/episodes', authenticatingUser, validatingViewEpisodes, episodesRouter.reads);
 router.get('/movie/:movieId/episode/:id', authenticatingUser, validatingViewEpisode, episodeRouter.reads);
 router.post('/episode', authenticatingAdmin, validatingAddEpisodes, addEpisodeRouter.create);
 router.patch('/episode/:id', authenticatingAdmin, validatingUpdateEpisode, updateEpisodeRouter.update);
 router.delete('/episode/:id', authenticatingAdmin, validatingDeleteEpisode, deleteEpisodeRouter.delete);
+
 
 module.exports = router;

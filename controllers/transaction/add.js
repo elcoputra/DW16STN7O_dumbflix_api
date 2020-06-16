@@ -10,14 +10,14 @@ exports.create = async (req, res, next) => {
     if (req.body.status) {
       if (req.body.status == 'Approved') {
         await user.update(
-          { subscribe: 'true' },
+          { subscribe: true },
           {
             where: { id: req.body.userId },
           },
         );
       } else {
         await user.update(
-          { subscribe: 'false' },
+          { subscribe: false },
           {
             where: { id: req.body.userId },
           }

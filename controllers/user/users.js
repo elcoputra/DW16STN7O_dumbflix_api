@@ -5,7 +5,7 @@ exports.reads = async (req, res) => {
   try {
     const userdata = await user.findAll({
       attributes: {
-        exclude: ['createdAt', 'updatedAt', 'userId'],
+        exclude: ['createdAt', 'updatedAt', 'userId', 'password'],
       },}
     );
     return res.send({ data: userdata });
