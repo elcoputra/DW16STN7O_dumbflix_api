@@ -1,0 +1,4 @@
+16-june-2020
+(Log:1) + loging data update biar gak pusing
+        + enum status transaction, 
+        + get all transaction by user 

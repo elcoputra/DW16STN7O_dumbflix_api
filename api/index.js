@@ -37,6 +37,7 @@ const rigisterRoute = require('../controllers/user/register');
 // ## TRANSACTION ## //
 const transactionRoute = require('../controllers/transaction/transaction');
 const transactionsRoute = require('../controllers/transaction/transactions');
+const transactionsByUserRoute = require('../controllers/transaction/transactionsByUser')
 const addTransactionRoute = require('../controllers/transaction/add');
 const updateTransactionRoute = require('../controllers/transaction/update');
 const deleteTransactionRoute = require('../controllers/transaction/delete');
@@ -80,6 +81,7 @@ router.delete('/user/:id', authenticatingAdmin, validatingDeleteUser, deleteUser
 // ### TRANSACTION ### //
 router.get('/transactions', authenticatingAdmin, transactionsRoute.reads);
 router.get('/transaction/:id', authenticatingAdmin, transactionRoute.reads);
+router.get('/user/:id/transactions', authenticatingUser, transactionsByUserRoute.reads);
 router.post('/transaction', authenticatingAdmin, validatingAddTransaction, addTransactionRoute.create);
 router.patch('/transaction/:id', authenticatingAdmin, validatingUpdateTransaction, updateTransactionRoute.update);
 router.delete('/transaction/:id', authenticatingAdmin, validatingDeleteTransaction, deleteTransactionRoute.deleteTransaction);
@@ -92,7 +94,7 @@ router.delete('/category/:id', authenticatingAdmin, validatingDeleteCategory, de
 
 // ### Movie ### //
 router.get('/movies', authenticatingUser, moviesRouter.reads);
-router.get('/movies/search/:target', movieSearchRouter.search);
+router.get('/movies/search/:target', authenticatingUser, movieSearchRouter.search);
 router.get('/movie/:id', authenticatingUser, movieRouter.reads);
 router.post('/movie', authenticatingAdmin, validatingAddMovie, addMovieRouter.create);
 router.patch('/movie/:id', authenticatingAdmin, validatingUpdateMovie, updateMovieRouter.update);

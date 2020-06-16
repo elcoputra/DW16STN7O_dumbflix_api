@@ -73,21 +73,23 @@ exports.validatingAddTransaction = async (req, res, next) => {
       startDate: Joi.string().required(),
       dueDate: Joi.string().min(8).required(),
       userId: Joi.number().required(),
-      attache: Joi.string().required(),
-      status: Joi.string().required(),
+      attachment: Joi.string().required(),
+      status: Joi.string().valid('Approved','Pending','Denied').required(),
     });
     const { error } = await schema.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });
 
     const { userId } = req.body;
-    const UserId = await transaction.findOne({
-      where: { userId },
-    });
-    if (UserId)
-      return res.status(400).send({
-        status: 'failed',
-        message: 'userId already has a data transaction, it must be edited rather than adding a new one',
-      });
+    // validator untuk tidak memasukan transaksi lagi, tapi karena transaksi boleh di masukan berkali2
+    // feature ini di hapus
+    // const UserId = await transaction.findOne({
+    //   where: { userId },
+    // });
+    // if (UserId)
+    //   return res.status(400).send({
+    //     status: 'failed',
+    //     message: 'userId already has a data transaction, it must be edited rather than adding a new one',
+    //   });
 
     const idUser = await user.findOne({
       where: { id: userId },
@@ -121,8 +123,8 @@ exports.validatingUpdateTransaction = async (req, res, next) => {
       startDate: Joi.string().allow(),
       dueDate: Joi.string().allow(),
       userId: Joi.number().allow(),
-      attache: Joi.string().allow(),
-      status: Joi.string().allow(),
+      attachment: Joi.string().allow(),
+      status: Joi.string().valid('Approved','Pending','Denied').allow(),
     });
     const { error } = await schema.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });

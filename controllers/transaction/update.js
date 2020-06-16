@@ -35,7 +35,7 @@ exports.update = async (req, res) => {
       include :[{
         model : user,
         attributes: {
-          exclude: ['createdAt', 'updatedAt', 'userId'],
+          exclude: ['createdAt', 'updatedAt', 'userId','password'],
         },
       }],
       attributes: {

@@ -10,7 +10,7 @@ exports.reads = async (req, res) => {
         {
           model: user,
           attributes: {
-            exclude: ['createdAt', 'updatedAt', 'userId'],
+            exclude: ['createdAt', 'updatedAt', 'userId','password'],
           },
         },
       ],

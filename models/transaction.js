@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       dueDate: DataTypes.STRING,
       userId: DataTypes.INTEGER,
       attachment: DataTypes.STRING,
-      status: DataTypes.STRING,
+      status: DataTypes.ENUM('Approved','Pending','Denied'),
     },
     {}
   );

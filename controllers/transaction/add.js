@@ -32,7 +32,7 @@ exports.create = async (req, res, next) => {
         {
           model: user,
           attributes: {
-            exclude: ['createdAt', 'updatedAt', 'userId'],
+            exclude: ['createdAt', 'updatedAt', 'userId','password'],
           },
         },
       ],
