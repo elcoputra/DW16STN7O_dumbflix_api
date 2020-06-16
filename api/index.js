@@ -79,6 +79,7 @@ router.delete('/user/:id', authenticatingAdmin, validatingDeleteUser, deleteUser
 
 // ### TRANSACTION ### //
 router.get('/transactions', authenticatingAdmin, transactionsRoute.reads);
+router.get('/transaction/:id', authenticatingAdmin, transactionRoute.reads);
 router.post('/transaction', authenticatingAdmin, validatingAddTransaction, addTransactionRoute.create);
 router.patch('/transaction/:id', authenticatingAdmin, validatingUpdateTransaction, updateTransactionRoute.update);
 router.delete('/transaction/:id', authenticatingAdmin, validatingDeleteTransaction, deleteTransactionRoute.deleteTransaction);
