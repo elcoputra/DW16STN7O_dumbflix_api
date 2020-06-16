@@ -54,3 +54,4 @@ mode debug, jalankan di konsol di dalam project folder
 | category |done  |
 | transaction | done |
 | episode | done |
+| search episode | done |

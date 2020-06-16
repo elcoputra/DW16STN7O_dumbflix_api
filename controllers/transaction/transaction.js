@@ -5,9 +5,8 @@ const { user } = require('../../models');
 exports.reads = async (req, res) => {
   try {
     // ini di bawah metode ngambil data buat yang sudah di assosiation
-    const { userId } = req.body;
     const userdata = await transaction.findOne({
-      where: { userId },
+      where: req.params.id,
       include: user,
       attributes: {
         exclude: ['createdAt', 'updatedAt', 'userId'],
