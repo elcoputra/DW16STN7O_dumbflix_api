@@ -95,13 +95,13 @@ router.delete('/category/:id', authenticatingAdmin, validatingDeleteCategory, de
 // ### Movie ### //
 router.get('/movies', authenticatingUser, moviesRouter.reads);
 router.get('/movies/search/:target', authenticatingUser, movieSearchRouter.search);
+router.get('/category/:categoryId/movies', authenticatingUser, validatingViewEpisodesByCategory, moviesByCategory.reads);
 router.get('/movie/:id', authenticatingUser, movieRouter.reads);
 router.post('/movie', authenticatingAdmin, validatingAddMovie, addMovieRouter.create);
 router.patch('/movie/:id', authenticatingAdmin, validatingUpdateMovie, updateMovieRouter.update);
 router.delete('/movie/:id', authenticatingAdmin, validatingDeleteMovie, deleteMovieRouter.delete);
 
 // ### EPISODE ### //
-router.get('/category/:categoryId/movies', authenticatingUser, validatingViewEpisodesByCategory, moviesByCategory.reads);
 router.get('/movie/:movieId/episodes', authenticatingUser, validatingViewEpisodes, episodesRouter.reads);
 router.get('/movie/:movieId/episode/:id', authenticatingUser, validatingViewEpisode, episodeRouter.reads);
 router.post('/episode', authenticatingAdmin, validatingAddEpisodes, addEpisodeRouter.create);

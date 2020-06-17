@@ -44,7 +44,7 @@ exports.update = async (req, res) => {
     });
     res.send({
       message: 'Succsess patching data transaction',
-      transaction: data
+      transaction: {transaction:data}
     });
   } catch (error) {
     return res.send({error});

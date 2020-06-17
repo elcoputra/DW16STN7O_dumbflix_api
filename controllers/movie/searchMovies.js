@@ -21,9 +21,9 @@ exports.search = async (req, res) => {
       },
     });
     if (Object.keys(searched).length === 0) {
-      return res.send({ message: 'The movie you were looking for was not found' });
+      return res.send({ message: 'None of the movies match what you are looking for' });
     }
-    return res.send({ data: searched });
+    return res.send({ data: { searched: searched } });
   } catch (error) {
     return res.send(error);
   }

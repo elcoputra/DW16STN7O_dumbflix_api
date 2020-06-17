@@ -2,7 +2,6 @@ const { episode, movie, category } = require('../../models');
 
 exports.update = async (req, res) => {
   try {
-    
     const report = await episode.update(req.body, {
       where: {
         id: req.params.id,
@@ -30,13 +29,14 @@ exports.update = async (req, res) => {
         },
       ],
       attributes: {
-        exclude: ['createdAt', 'updatedAt','movieId'],
+        exclude: ['createdAt', 'updatedAt', 'movieId'],
       },
     });
     return res.send({
-      data: updated,
+      message: 'Episode Updated',
+      data: { episode: updated },
     });
   } catch (error) {
-    return res.send({error});
+    return res.send({ error });
   }
 };

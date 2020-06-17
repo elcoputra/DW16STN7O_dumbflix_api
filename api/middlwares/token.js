@@ -15,9 +15,7 @@ exports.getToken = async (req, res) => {
     const token = jwt.sign({ id: idUser, isAdmin: isAdmin }, process.env.TOKEN_KEY);
     return res.send({
       data: {
-        id:idUser,
-        email,
-        token,
+        user: [{ id: idUser, email, token }],
       },
     });
   } catch (error) {

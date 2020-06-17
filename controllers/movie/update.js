@@ -27,7 +27,7 @@ exports.update = async (req, res) => {
     });
     return res.send({
       message: 'Movie successfully updated',
-      data: updated,
+      data: { movie: updated },
     });
   } catch (error) {
     return res.send({ error });

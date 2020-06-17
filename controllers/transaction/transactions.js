@@ -10,7 +10,7 @@ exports.reads = async (req, res) => {
         {
           model: user,
           attributes: {
-            exclude: ['createdAt', 'updatedAt', 'userId','password'],
+            exclude: ['createdAt', 'updatedAt', 'userId', 'password'],
           },
         },
       ],
@@ -18,8 +18,8 @@ exports.reads = async (req, res) => {
         exclude: ['createdAt', 'updatedAt', 'userId'],
       },
     });
-    return res.send({ data: {transactions : userdata} });
+    return res.send({ data: { transactions: userdata } });
   } catch (error) {
-    return res.send({error});
+    return res.send({ error });
   }
 };

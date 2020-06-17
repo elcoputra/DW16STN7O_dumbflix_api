@@ -32,9 +32,9 @@ exports.create = async (req, res, next) => {
     });
     return res.send({
       message: 'Transaction data successfully created',
-      data: detail,
+      data: { episode: detail },
     });
   } catch (error) {
-    return res.send({error});
+    return res.send({ error });
   }
 };

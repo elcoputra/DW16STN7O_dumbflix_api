@@ -20,7 +20,7 @@ exports.reads = async (req, res) => {
       },
     });
     if (dataTransactionsByUser.length === 0) return res.send({ message: 'Not Transactions by user id: ' + req.params.id });
-    return res.send({ data: dataTransactionsByUser });
+    return res.send({ data: {transactions:dataTransactionsByUser} });
   } catch (error) {
     return res.send({ error });
   }

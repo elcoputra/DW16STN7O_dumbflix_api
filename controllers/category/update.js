@@ -19,7 +19,7 @@ exports.update = async (req, res) => {
     });
     return res.send({
       message: 'successfully updated one category',
-      data: updated,
+      data: {category:updated},
     });
   } catch (error) {
     return res.send(error);

@@ -48,7 +48,7 @@ exports.create = async (req, res, next) => {
     // res.send({ data: trans });
     return res.send({
       message: 'Transaction data successfully created',
-      data: userdata,
+      data: {transaction:userdata},
     });
   } catch (error) {
     return res.send({ error });
