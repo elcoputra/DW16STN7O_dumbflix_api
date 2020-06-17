@@ -70,11 +70,11 @@ exports.validatingDeleteUser = async (req, res, next) => {
 exports.validatingAddTransaction = async (req, res, next) => {
   try {
     const schema = Joi.object({
-      startDate: Joi.string().required(),
-      dueDate: Joi.string().min(8).required(),
+      // startDate: Joi.string().allow(),
+      // dueDate: Joi.string().min(8).allow(),
       userId: Joi.number().required(),
       attachment: Joi.string().required(),
-      status: Joi.string().valid('Approved','Pending','Denied').required(),
+      status: Joi.string().valid('Approved', 'Pending', 'Denied').required(),
     });
     const { error } = await schema.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });
@@ -120,11 +120,11 @@ exports.validatingUpdateTransaction = async (req, res, next) => {
       });
     }
     const schema = Joi.object({
-      startDate: Joi.string().allow(),
-      dueDate: Joi.string().allow(),
+      startDate: Joi.date().allow(),
+      dueDate: Joi.date().allow(),
       userId: Joi.number().allow(),
       attachment: Joi.string().allow(),
-      status: Joi.string().valid('Approved','Pending','Denied').allow(),
+      status: Joi.string().valid('Approved', 'Pending', 'Denied').allow(),
     });
     const { error } = await schema.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });
@@ -381,13 +381,14 @@ exports.validatingViewEpisodesByCategory = async (req, res, next) => {
       });
     }
     const moviesByCategory = await movie.findOne({
-      where : {
-        categoryId : req.params.categoryId
-      }
-    })
-    if(!moviesByCategory) return await res.status(400).send({
-      message : 'Category not found, check your endpoint again'
-    })
+      where: {
+        categoryId: req.params.categoryId,
+      },
+    });
+    if (!moviesByCategory)
+      return await res.status(400).send({
+        message: 'Category not found, check your endpoint again',
+      });
     return next();
   } catch (error) {
     return console.log(error);
@@ -431,7 +432,6 @@ exports.validatingAddEpisodes = async (req, res, next) => {
       return res.status(400).send({
         message: 'Episode Title Already exist!',
       });
-
 
     const { movieId } = req.body;
     const idMovie = await movie.findOne({

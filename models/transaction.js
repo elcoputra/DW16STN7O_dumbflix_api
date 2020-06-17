@@ -3,8 +3,8 @@ module.exports = (sequelize, DataTypes) => {
   const transaction = sequelize.define(
     'transaction',
     {
-      startDate: DataTypes.STRING,
-      dueDate: DataTypes.STRING,
+      startDate: DataTypes.DATE,
+      dueDate: DataTypes.DATE,
       userId: DataTypes.INTEGER,
       attachment: DataTypes.STRING,
       status: DataTypes.ENUM('Approved','Pending','Denied'),

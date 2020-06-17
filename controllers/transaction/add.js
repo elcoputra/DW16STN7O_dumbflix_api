@@ -1,11 +1,15 @@
 const { transaction } = require('../../models');
 const { user } = require('../../models');
+const moment = require('moment');
 
 exports.create = async (req, res, next) => {
   try {
-    const trans = await transaction.create(req.body);
+    const dataBody = req.body;
+    let startDate = new Date();
+    let dueDate = moment(startDate);
+    dueDate.add(1, 'months');
+    const trans = await transaction.create({ startDate: startDate, dueDate: dueDate, ...dataBody });
     const { id } = trans;
-
     // logic update subscribe
     if (req.body.status) {
       if (req.body.status == 'Approved') {
@@ -20,7 +24,7 @@ exports.create = async (req, res, next) => {
           { subscribe: false },
           {
             where: { id: req.body.userId },
-          }
+          },
         );
       }
     }
@@ -32,7 +36,7 @@ exports.create = async (req, res, next) => {
         {
           model: user,
           attributes: {
-            exclude: ['createdAt', 'updatedAt', 'userId','password'],
+            exclude: ['createdAt', 'updatedAt', 'userId', 'password'],
           },
         },
       ],

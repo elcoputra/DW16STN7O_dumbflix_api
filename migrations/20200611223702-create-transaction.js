@@ -19,10 +19,10 @@ module.exports = {
         onDelete: 'CASCADE',
       },
       startDate: {
-        type: Sequelize.STRING,
+        type: Sequelize.DATE,
       },
       dueDate: {
-        type: Sequelize.STRING,
+        type: Sequelize.DATE,
       },
       attachment: {
         type: Sequelize.STRING,
