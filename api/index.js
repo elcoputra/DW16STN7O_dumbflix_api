@@ -93,7 +93,7 @@ router.patch('/category/:id', authenticatingAdmin, validatingUpdateCategory, upd
 router.delete('/category/:id', authenticatingAdmin, validatingDeleteCategory, deleteCategoryRoute.deletecategory);
 
 // ### Movie ### //
-router.get('/movies', authenticatingUser, moviesRouter.reads);
+router.get('/movies', moviesRouter.reads);
 router.get('/movies/search/:target', authenticatingUser, movieSearchRouter.search);
 router.get('/category/:categoryId/movies', authenticatingUser, validatingViewEpisodesByCategory, moviesByCategory.reads);
 router.get('/movie/:id', authenticatingUser, movieRouter.reads);

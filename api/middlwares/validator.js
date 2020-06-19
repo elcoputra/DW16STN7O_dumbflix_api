@@ -257,7 +257,9 @@ exports.validatingAddMovie = async (req, res, next) => {
     const schema = Joi.object({
       categoryId: Joi.number().required(),
       title: Joi.string().required(),
-      thumbnailFilm: Joi.string().required(),
+      thumbnail: Joi.string().required(),
+      linkTrailer: Joi.string().required(),
+      thumbnailTrailer: Joi.string().required(),
       year: Joi.number().required(),
       description: Joi.string().required(),
     });
@@ -304,7 +306,9 @@ exports.validatingUpdateMovie = async (req, res, next) => {
     const schema = Joi.object({
       categoryId: Joi.number().allow(),
       title: Joi.string().allow(),
-      thumbnailFilm: Joi.string().allow(),
+      thumbnail: Joi.string().allow(),
+      linkTrailer: Joi.string().allow(),
+      thumbnailTrailer: Joi.string().allow(),
       year: Joi.number().allow(),
       description: Joi.string().allow(),
     });
