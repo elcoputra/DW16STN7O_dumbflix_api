@@ -17,13 +17,13 @@ exports.search = async (req, res) => {
         },
       },
       attributes: {
-        exclude: ['createdAt', 'updatedAt', 'categoryId'],
+        exclude: ['createdAt', 'updatedAt'],
       },
     });
     if (Object.keys(searched).length === 0) {
       return res.send({ message: 'None of the movies match what you are looking for' });
     }
-    return res.send({ data: { searched: searched } });
+    return res.send({ data: searched });
   } catch (error) {
     return res.send(error);
   }

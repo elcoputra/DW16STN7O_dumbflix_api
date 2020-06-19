@@ -9,10 +9,10 @@ exports.reads = async (req, res) => {
       where: { id: req.params.id },
       include: user,
       attributes: {
-        exclude: ['createdAt', 'updatedAt', 'userId', 'password'],
+        exclude: ['createdAt', 'updatedAt', 'password'],
       },
     });
-    return res.send({ data: { transaction: transactionData } });
+    return res.send({ data: transactionData });
   } catch (error) {
     return res.send({ error });
   }

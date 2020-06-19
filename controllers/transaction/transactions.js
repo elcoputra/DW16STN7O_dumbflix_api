@@ -10,15 +10,15 @@ exports.reads = async (req, res) => {
         {
           model: user,
           attributes: {
-            exclude: ['createdAt', 'updatedAt', 'userId', 'password'],
+            exclude: ['createdAt', 'updatedAt', 'password'],
           },
         },
       ],
       attributes: {
-        exclude: ['createdAt', 'updatedAt', 'userId'],
+        exclude: ['createdAt', 'updatedAt'],
       },
     });
-    return res.send({ data: { transactions: userdata } });
+    return res.send({ data: userdata });
   } catch (error) {
     return res.send({ error });
   }

@@ -95,7 +95,7 @@ router.delete('/category/:id', authenticatingAdmin, validatingDeleteCategory, de
 // ### Movie ### //
 router.get('/movies', moviesRouter.reads);
 router.get('/movies/search/:target', authenticatingUser, movieSearchRouter.search);
-router.get('/category/:categoryId/movies', authenticatingUser, validatingViewEpisodesByCategory, moviesByCategory.reads);
+router.get('/category/:categoryId/movies', validatingViewEpisodesByCategory, moviesByCategory.reads);
 router.get('/movie/:id', authenticatingUser, movieRouter.reads);
 router.post('/movie', authenticatingAdmin, validatingAddMovie, addMovieRouter.create);
 router.patch('/movie/:id', authenticatingAdmin, validatingUpdateMovie, updateMovieRouter.update);

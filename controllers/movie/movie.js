@@ -17,11 +17,11 @@ exports.reads = async (req, res) => {
         },
       ],
       attributes: {
-        exclude: ['createdAt', 'updatedAt', 'categoryId'],
+        exclude: ['createdAt', 'updatedAt'],
       },
     });
     if (!moviee) return res.send({ message: 'did not find the movie according to the id you provided' });
-    return res.send({ data: { movie: moviee } });
+    return res.send({ data: moviee });
   } catch (error) {
     return res.send({ error });
   }

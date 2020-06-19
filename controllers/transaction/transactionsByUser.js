@@ -16,11 +16,11 @@ exports.reads = async (req, res) => {
         userId: req.params.id,
       },
       attributes: {
-        exclude: ['createdAt', 'updatedAt', 'userId'],
+        exclude: ['createdAt', 'updatedAt'],
       },
     });
     if (dataTransactionsByUser.length === 0) return res.send({ message: 'Not Transactions by user id: ' + req.params.id });
-    return res.send({ data: {transactions:dataTransactionsByUser} });
+    return res.send({ data: dataTransactionsByUser });
   } catch (error) {
     return res.send({ error });
   }
