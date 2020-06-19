@@ -14,9 +14,7 @@ exports.getToken = async (req, res) => {
     const isAdmin = req.credentialUser.isAdmin;
     const token = jwt.sign({ id: idUser, isAdmin: isAdmin }, process.env.TOKEN_KEY);
     return res.send({
-      data: {
-        user: [{ id: idUser, email, token }],
-      },
+      data: [{ id: idUser, email, isAdmin, token }],
     });
   } catch (error) {
     return console.log(error);
