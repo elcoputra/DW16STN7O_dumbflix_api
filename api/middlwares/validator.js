@@ -74,7 +74,8 @@ exports.validatingAddTransaction = async (req, res, next) => {
       // dueDate: Joi.string().min(8).allow(),
       userId: Joi.number().required(),
       attachment: Joi.string().required(),
-      status: Joi.string().valid('Approved', 'Pending', 'Denied').required(),
+      status: Joi.string().valid('Approved', 'Pending', 'Denied').allow(),
+      bankAccount: Joi.string().required(),
     });
     const { error } = await schema.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });

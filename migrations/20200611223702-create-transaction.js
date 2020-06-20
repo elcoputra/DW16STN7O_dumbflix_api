@@ -27,8 +27,11 @@ module.exports = {
       attachment: {
         type: Sequelize.STRING,
       },
+      bankAccount: {
+        type: Sequelize.STRING,
+      },
       status: {
-        type: Sequelize.ENUM('Approved','Pending','Denied'),
+        type: Sequelize.ENUM('Approved', 'Pending', 'Denied'),
       },
       createdAt: {
         allowNull: false,

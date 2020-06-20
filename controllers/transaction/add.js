@@ -7,26 +7,34 @@ exports.create = async (req, res, next) => {
     const dataBody = req.body;
     let startDate = new Date();
     let dueDate = moment(startDate);
+    const pendingDefault = 'Pending';
     dueDate.add(1, 'months');
-    const trans = await transaction.create({ startDate: startDate, dueDate: dueDate, ...dataBody });
+    const trans = await transaction.create({ startDate: startDate, dueDate: dueDate, status: pendingDefault, ...dataBody });
     const { id } = trans;
     // logic update subscribe
-    if (req.body.status) {
-      if (req.body.status == 'Approved') {
-        await user.update(
-          { subscribe: true },
-          {
-            where: { id: req.body.userId },
-          },
-        );
-      } else {
-        await user.update(
-          { subscribe: false },
-          {
-            where: { id: req.body.userId },
-          },
-        );
-      }
+    if (pendingDefault == 'Approved') {
+      await user.update(
+        { subscribe: true },
+        {
+          where: { id: req.body.userId },
+        },
+      );
+    }
+    if (pendingDefault == 'Pending') {
+      await user.update(
+        { subscribe: false },
+        {
+          where: { id: req.body.userId },
+        },
+      );
+    }
+    if (pendingDefault == 'Denied') {
+      await user.update(
+        { subscribe: false },
+        {
+          where: { id: req.body.userId },
+        },
+      );
     }
 
     // add transaction
@@ -48,7 +56,7 @@ exports.create = async (req, res, next) => {
     // res.send({ data: trans });
     return res.send({
       message: 'Transaction data successfully created',
-      data: {transaction:userdata},
+      data: { transaction: userdata },
     });
   } catch (error) {
     return res.send({ error });

@@ -7,9 +7,10 @@ module.exports = (sequelize, DataTypes) => {
       dueDate: DataTypes.DATE,
       userId: DataTypes.INTEGER,
       attachment: DataTypes.STRING,
-      status: DataTypes.ENUM('Approved','Pending','Denied'),
+      bankAccount: DataTypes.STRING,
+      status: DataTypes.ENUM('Approved', 'Pending', 'Denied'),
     },
-    {}
+    {},
   );
   transaction.associate = function (models) {
     // associations can be defined here
