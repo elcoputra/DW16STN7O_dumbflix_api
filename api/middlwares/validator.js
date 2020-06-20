@@ -8,7 +8,7 @@ exports.validatingRegister = async (req, res, next) => {
       fullName: Joi.string().min(2).required(),
       email: Joi.string().email().min(13).required(),
       password: Joi.string().min(8).max(16).required(),
-      isAdmin: Joi.boolean().required(),
+      isAdmin: Joi.boolean().allow(),
       gender: Joi.string().required(),
       phone: Joi.string().min(10).required(),
       address: Joi.string().required(),

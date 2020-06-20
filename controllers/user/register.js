@@ -8,7 +8,7 @@ exports.create = async (req, res, next) => {
       fullName: fullName,
       email: email,
       password: password,
-      isAdmin: isAdmin,
+      isAdmin: false,
       gender: gender,
       phone: phone,
       address: address,

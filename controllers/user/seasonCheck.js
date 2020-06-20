@@ -13,6 +13,7 @@ exports.reads = async (req, res) => {
         id: userdata.id,
         fullName: userdata.fullName,
         isAdmin: userdata.isAdmin,
+        email: userdata.email,
         gender: userdata.gender,
         phone: userdata.phone,
         address: userdata.address,
