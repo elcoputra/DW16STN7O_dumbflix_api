@@ -83,14 +83,14 @@ exports.validatingAddTransaction = async (req, res, next) => {
     const { userId } = req.body;
     // validator untuk tidak memasukan transaksi lagi, tapi karena transaksi boleh di masukan berkali2
     // feature ini di hapus
-    // const UserId = await transaction.findOne({
-    //   where: { userId },
-    // });
-    // if (UserId)
-    //   return res.status(400).send({
-    //     status: 'failed',
-    //     message: 'userId already has a data transaction, it must be edited rather than adding a new one',
-    //   });
+    const UserId = await transaction.findOne({
+      where: { userId },
+    });
+    if (UserId)
+      return res.status(400).send({
+        status: 'failed',
+        message: 'userId already has a data transaction, it must be edited rather than adding a new one',
+      });
 
     const idUser = await user.findOne({
       where: { id: userId },
