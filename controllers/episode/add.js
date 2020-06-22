@@ -38,3 +38,14 @@ exports.create = async (req, res, next) => {
     return res.send({ error });
   }
 };
+exports.bluk = async (req, res, next) => {
+  try {
+    const feedback = await episode.bulkCreate(req.body);
+    return res.send({
+      message: 'Episodes data successfully created',
+      data: { episodes: feedback },
+    });
+  } catch (error) {
+    return res.send({ error });
+  }
+};

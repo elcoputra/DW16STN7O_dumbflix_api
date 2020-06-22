@@ -257,12 +257,12 @@ exports.validatingAddMovie = async (req, res, next) => {
   try {
     const schema = Joi.object({
       categoryId: Joi.number().required(),
-      title: Joi.string().required(),
-      thumbnail: Joi.string().required(),
-      linkTrailer: Joi.string().required(),
-      thumbnailTrailer: Joi.string().required(),
-      year: Joi.number().required(),
-      description: Joi.string().required(),
+      title: Joi.string().allow(),
+      thumbnail: Joi.string().allow(),
+      linkTrailer: Joi.string().allow(),
+      thumbnailTrailer: Joi.string().allow(),
+      year: Joi.allow(),
+      description: Joi.string().allow(),
     });
     const { error } = await schema.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });

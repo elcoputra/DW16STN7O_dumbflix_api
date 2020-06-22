@@ -23,7 +23,7 @@ exports.create = async (req, res, next) => {
     });
     return res.send({
       message: 'Movie successfully added',
-      data: { movie: detail },
+      data: detail,
     });
   } catch (error) {
     return res.send({ error });
