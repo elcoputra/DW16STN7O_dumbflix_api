@@ -5,11 +5,11 @@ exports.reads = async (req, res) => {
   try {
     const userdata = await user.findAll({
       attributes: {
-        exclude: ['createdAt', 'updatedAt', 'userId', 'password'],
-      },}
-    );
+        exclude: ['createdAt', 'updatedAt', 'password'],
+      },
+    });
     return res.send({ data: userdata });
   } catch (error) {
-    return res.send({error});
+    return res.send({ error });
   }
 };

@@ -19,16 +19,19 @@ module.exports = {
         onDelete: 'CASCADE',
       },
       startDate: {
-        type: Sequelize.STRING,
+        type: Sequelize.DATE,
       },
       dueDate: {
-        type: Sequelize.STRING,
+        type: Sequelize.DATE,
       },
       attachment: {
         type: Sequelize.STRING,
       },
-      status: {
+      bankAccount: {
         type: Sequelize.STRING,
+      },
+      status: {
+        type: Sequelize.ENUM('Approved', 'Pending', 'Denied'),
       },
       createdAt: {
         allowNull: false,

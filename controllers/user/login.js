@@ -6,7 +6,7 @@ exports.checkingDataUser = async (req, res, next) => {
     const User = await user.findOne({
       where: { email },
     });
-    if (!User) return res.status(400).send({ message: 'Invalid Login' });
+    if (!User) return res.status(400).send({ message: 'Email or password is not matach' });
     req.credentialUser = User;
     // req.passwordFromDatabase = User;
     return next();

@@ -5,15 +5,15 @@ const { user } = require('../../models');
 exports.reads = async (req, res) => {
   try {
     // ini di bawah metode ngambil data buat yang sudah di assosiation
-    const userdata = await transaction.findOne({
-      where: req.params.id,
+    const transactionData = await transaction.findOne({
+      where: { id: req.params.id },
       include: user,
       attributes: {
-        exclude: ['createdAt', 'updatedAt', 'userId'],
+        exclude: ['createdAt', 'updatedAt', 'password'],
       },
     });
-    return res.send({ data: userdata });
+    return res.send({ data: transactionData });
   } catch (error) {
-    return res.send({error});
+    return res.send({ error });
   }
 };

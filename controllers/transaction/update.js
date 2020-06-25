@@ -3,7 +3,6 @@ const { user } = require('../../models');
 
 exports.update = async (req, res) => {
   try {
-    
     // logic subscribe user
     if (req.body.status) {
       if (req.body.status == 'Approved') {
@@ -15,13 +14,13 @@ exports.update = async (req, res) => {
         );
       } else {
         await user.update(
-          {subscribe: 'false'},
+          { subscribe: 'false' },
           {
-          where: { id: req.body.userId }
-        });
+            where: { id: req.body.userId },
+          },
+        );
       }
     }
-
 
     const report = await transaction.update(req.body, {
       where: {
@@ -29,25 +28,26 @@ exports.update = async (req, res) => {
       },
     });
     if (!report) return res.status(400).send({ message: 'The id you provided does not exist' });
-  
+
     const data = await transaction.findOne({
       where: { id: req.params.id },
-      include :[{
-        model : user,
-        attributes: {
-          exclude: ['createdAt', 'updatedAt', 'userId'],
+      include: [
+        {
+          model: user,
+          attributes: {
+            exclude: ['createdAt', 'updatedAt', 'userId', 'password'],
+          },
         },
-      }],
+      ],
       attributes: {
         exclude: ['createdAt', 'updatedAt', 'userId'],
       },
     });
     res.send({
       message: 'Succsess patching data transaction',
-      transaction: data
+      transaction: { transaction: data },
     });
   } catch (error) {
-    return res.send({error});
+    return res.send({ error });
   }
-
 };

@@ -6,7 +6,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       categoryId: {
         type: Sequelize.INTEGER,
@@ -20,26 +20,32 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      thumbnailFilm: {
-        type: Sequelize.STRING
+      thumbnail: {
+        type: Sequelize.STRING,
+      },
+      linkTrailer: {
+        type: Sequelize.STRING,
+      },
+      thumbnailTrailer: {
+        type: Sequelize.STRING,
       },
       year: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000),
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('movies');
-  }
+  },
 };

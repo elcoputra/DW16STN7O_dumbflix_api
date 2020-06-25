@@ -15,7 +15,7 @@ exports.reads = async (req, res) => {
         {
           model: movie,
           attributes: {
-            exclude: ['createdAt', 'updatedAt', 'categoryId'],
+            exclude: ['createdAt', 'updatedAt'],
           },
           include: [
             {
@@ -28,11 +28,11 @@ exports.reads = async (req, res) => {
         },
       ],
       attributes: {
-        exclude: ['createdAt', 'updatedAt', 'movieId'],
+        exclude: ['createdAt', 'updatedAt'],
       },
     });
-   return res.send({ data: episodesData });
+    return res.send({ data: episodesData });
   } catch (error) {
-    return res.send({error});
+    return res.send({ error });
   }
 };

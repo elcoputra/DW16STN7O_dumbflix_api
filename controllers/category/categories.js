@@ -4,12 +4,12 @@ const { category } = require('../../models');
 exports.reads = async (req, res) => {
   try {
     const categories = await category.findAll({
-        attributes: {
-            exclude: ['createdAt', 'updatedAt', 'userId'],
-          },
+      attributes: {
+        exclude: ['createdAt', 'updatedAt'],
+      },
     });
-    return res.send({ data:{categories : categories} });
+    return res.send({ data: categories });
   } catch (error) {
-    return res.send({error});
+    return res.send({ error });
   }
 };
