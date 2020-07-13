@@ -21,7 +21,7 @@ exports.reads = async (req, res) => {
         exclude: ['createdAt', 'updatedAt'],
       },
     });
-    return res.send({ data: moviesDataByCategory });
+    return res.send({ message: 'Successfully moved according to category', data: moviesDataByCategory });
   } catch (error) {
     return res.send({ error });
   }
