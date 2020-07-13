@@ -26,7 +26,7 @@ exports.validatingRegister = async (req, res, next) => {
 
     return next();
   } catch (error) {
-    return console.log(error);
+    return res.status(400).json({ error });
   }
 };
 
