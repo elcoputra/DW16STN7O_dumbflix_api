@@ -6,7 +6,7 @@ exports.delete = async (req, res) => {
         id: req.params.id,
       },
     });
-    if (!report) return res.status(400).send({ message: 'The id you provided does not exist' });
+    if (!report) return res.status(400).send({ error: 'The id you provided does not exist' });
     return res.send({
       message: 'movie with id: ' + req.params.id + ' deleted',
     });

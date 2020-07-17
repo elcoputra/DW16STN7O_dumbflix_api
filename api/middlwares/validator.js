@@ -5,12 +5,12 @@ const { user, transaction, category, movie, episode } = require('../../models');
 exports.validatingRegister = async (req, res, next) => {
   try {
     const schema = Joi.object({
-      fullName: Joi.string().min(2).required(),
-      email: Joi.string().email().min(13).required(),
+      fullName: Joi.string().required(),
+      email: Joi.string().email().required(),
       password: Joi.string().min(1).required(),
       isAdmin: Joi.boolean().allow(),
       gender: Joi.string().required(),
-      phone: Joi.string().min(1).required(),
+      phone: Joi.string().required(),
       address: Joi.string().required(),
       subscribe: Joi.boolean().allow(),
     });
