@@ -95,7 +95,8 @@ exports.validatingAddTransaction = async (req, res, next) => {
     if (!idUser)
       return res.status(400).send({
         status: 'failed',
-        message: 'The user id you provided does not exist, please add a new user',
+        message:
+          'The user id you provided does not exist, please add a new user',
       });
 
     return next();
@@ -143,7 +144,8 @@ exports.validatingUpdateTransaction = async (req, res, next) => {
       if (!idUser)
         return res.status(400).send({
           status: 'failed',
-          message: 'The user id you provided does not exist, please add a new user',
+          message:
+            'The user id you provided does not exist, please add a new user',
         });
     }
 
@@ -254,12 +256,12 @@ exports.validatingAddMovie = async (req, res, next) => {
   try {
     const schema = Joi.object({
       categoryId: Joi.number().required(),
-      title: Joi.string().allow(),
-      thumbnail: Joi.string().allow(),
-      linkTrailer: Joi.string().allow(),
-      thumbnailTrailer: Joi.string().allow(),
-      year: Joi.allow(),
-      description: Joi.string().allow(),
+      title: Joi.string().required(),
+      thumbnail: Joi.string().required(),
+      linkTrailer: Joi.string().required(),
+      thumbnailTrailer: Joi.string().required(),
+      year: Joi.required(),
+      description: Joi.string().required(),
     });
     const { error } = await schema.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });

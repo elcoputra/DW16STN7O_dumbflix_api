@@ -87,7 +87,12 @@ router.get('/transaction/:id', authenticatingAdmin, transactionRoute.reads); //a
 router.get('/user/:id/transactions', authenticatingById, transactionsByUserRoute.reads); //authenticatingById
 router.post('/transaction', validatingAddTransaction, addTransactionRoute.create); //authenticatingAdmin
 router.patch('/transaction/:id', authenticatingAdmin, validatingUpdateTransaction, updateTransactionRoute.update); //authenticatingAdmin
-router.delete('/transaction/:id', authenticatingAdmin, validatingDeleteTransaction, deleteTransactionRoute.deleteTransaction); //authenticatingAdmin
+router.delete(
+  '/transaction/:id',
+  authenticatingAdmin,
+  validatingDeleteTransaction,
+  deleteTransactionRoute.deleteTransaction,
+); //authenticatingAdmin
 
 // ### Category ## //
 router.get('/categories', authenticatingUser, categoiresRoute.reads); //authenticatingUser
@@ -100,7 +105,7 @@ router.get('/movies', moviesRouter.reads);
 router.get('/movies/search/:target', authenticatingUser, movieSearchRouter.search); //authenticatingUser
 router.get('/category/:categoryId/movies', validatingViewEpisodesByCategory, moviesByCategory.reads);
 router.get('/movie/:id', authenticatingUser, movieRouter.reads); //authenticatingUser
-router.post('/movie', authenticatingAdmin, addMovieRouter.create); //authenticatingAdmin validatingAddMovie
+router.post('/movie', authenticatingAdmin, validatingAddMovie, addMovieRouter.create); //authenticatingAdmin validatingAddMovie
 router.patch('/movie/:id', authenticatingAdmin, validatingUpdateMovie, updateMovieRouter.update); //authenticatingAdmin
 router.delete('/movie/:id', authenticatingAdmin, validatingDeleteMovie, deleteMovieRouter.delete); //authenticatingAdmin
 
