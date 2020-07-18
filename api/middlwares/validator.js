@@ -95,8 +95,7 @@ exports.validatingAddTransaction = async (req, res, next) => {
     if (!idUser)
       return res.status(400).send({
         status: 'failed',
-        message:
-          'The user id you provided does not exist, please add a new user',
+        message: 'The user id you provided does not exist, please add a new user',
       });
 
     return next();
@@ -144,8 +143,7 @@ exports.validatingUpdateTransaction = async (req, res, next) => {
       if (!idUser)
         return res.status(400).send({
           status: 'failed',
-          message:
-            'The user id you provided does not exist, please add a new user',
+          message: 'The user id you provided does not exist, please add a new user',
         });
     }
 
@@ -258,8 +256,8 @@ exports.validatingAddMovie = async (req, res, next) => {
       categoryId: Joi.number().required(),
       title: Joi.string().required(),
       thumbnail: Joi.string().required(),
-      linkTrailer: Joi.string().required(),
-      thumbnailTrailer: Joi.string().required(),
+      linkTrailer: Joi.string().allow(),
+      thumbnailTrailer: Joi.string().allow(),
       year: Joi.required(),
       description: Joi.string().required(),
     });
@@ -272,7 +270,7 @@ exports.validatingAddMovie = async (req, res, next) => {
     });
     if (nameMovie)
       return res.status(400).send({
-        message: 'Movie Title Already exist!',
+        error: 'Movie Title Already exist!',
       });
     const { categoryId } = req.body;
     const idCategory = await category.findOne({
@@ -280,7 +278,7 @@ exports.validatingAddMovie = async (req, res, next) => {
     });
     if (!idCategory)
       return res.status(400).send({
-        message: 'The category you provided does not exist',
+        error: 'The category you provided does not exist',
       });
 
     return next();
