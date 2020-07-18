@@ -18,7 +18,7 @@ exports.reads = async (req, res) => {
         exclude: ['createdAt', 'updatedAt'],
       },
     });
-    return res.send({ data: moviesData });
+    return res.send({ message: 'Successfully retrieved all movies', data: moviesData });
   } catch (error) {
     return res.send({ error });
   }

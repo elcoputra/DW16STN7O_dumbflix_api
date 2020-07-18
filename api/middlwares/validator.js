@@ -5,12 +5,12 @@ const { user, transaction, category, movie, episode } = require('../../models');
 exports.validatingRegister = async (req, res, next) => {
   try {
     const schema = Joi.object({
-      fullName: Joi.string().min(2).required(),
-      email: Joi.string().email().min(13).required(),
-      password: Joi.string().min(8).max(16).required(),
+      fullName: Joi.string().required(),
+      email: Joi.string().email().required(),
+      password: Joi.string().min(1).required(),
       isAdmin: Joi.boolean().allow(),
       gender: Joi.string().required(),
-      phone: Joi.string().min(10).required(),
+      phone: Joi.string().required(),
       address: Joi.string().required(),
       subscribe: Joi.boolean().allow(),
     });
@@ -26,7 +26,7 @@ exports.validatingRegister = async (req, res, next) => {
 
     return next();
   } catch (error) {
-    return console.log(error);
+    return res.status(400).json({ error });
   }
 };
 
@@ -70,8 +70,6 @@ exports.validatingDeleteUser = async (req, res, next) => {
 exports.validatingAddTransaction = async (req, res, next) => {
   try {
     const schema = Joi.object({
-      // startDate: Joi.string().allow(),
-      // dueDate: Joi.string().min(8).allow(),
       userId: Joi.number().required(),
       attachment: Joi.string().required(),
       status: Joi.string().valid('Approved', 'Pending', 'Denied').allow(),
@@ -81,15 +79,14 @@ exports.validatingAddTransaction = async (req, res, next) => {
     if (error) return res.status(400).json({ error: error.details[0].message });
 
     const { userId } = req.body;
-    // validator untuk tidak memasukan transaksi lagi, tapi karena transaksi boleh di masukan berkali2
-    // feature ini di hapus
+    // validator untuk tidak memasukan transaksi lagi
     const UserId = await transaction.findOne({
       where: { userId },
     });
     if (UserId)
       return res.status(400).send({
         status: 'failed',
-        message: 'userId already has a data transaction, it must be edited rather than adding a new one',
+        error: 'You have already sent the upgrade data, check again later',
       });
 
     const idUser = await user.findOne({
@@ -257,12 +254,12 @@ exports.validatingAddMovie = async (req, res, next) => {
   try {
     const schema = Joi.object({
       categoryId: Joi.number().required(),
-      title: Joi.string().allow(),
-      thumbnail: Joi.string().allow(),
+      title: Joi.string().required(),
+      thumbnail: Joi.string().required(),
       linkTrailer: Joi.string().allow(),
       thumbnailTrailer: Joi.string().allow(),
-      year: Joi.allow(),
-      description: Joi.string().allow(),
+      year: Joi.required(),
+      description: Joi.string().required(),
     });
     const { error } = await schema.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });
@@ -273,7 +270,7 @@ exports.validatingAddMovie = async (req, res, next) => {
     });
     if (nameMovie)
       return res.status(400).send({
-        message: 'Movie Title Already exist!',
+        error: 'Movie Title Already exist!',
       });
     const { categoryId } = req.body;
     const idCategory = await category.findOne({
@@ -281,7 +278,7 @@ exports.validatingAddMovie = async (req, res, next) => {
     });
     if (!idCategory)
       return res.status(400).send({
-        message: 'The category you provided does not exist',
+        error: 'The category you provided does not exist',
       });
 
     return next();

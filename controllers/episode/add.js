@@ -31,7 +31,7 @@ exports.create = async (req, res, next) => {
       },
     });
     return res.send({
-      message: 'Transaction data successfully created',
+      message: 'Episode successfully created',
       data: { episode: detail },
     });
   } catch (error) {
