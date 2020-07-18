@@ -1,5 +1,6 @@
 const { movie, Sequelize } = require('../../models');
 const { category } = require('../../models');
+
 const Op = Sequelize.Op;
 
 exports.search = async (req, res) => {
@@ -13,6 +14,11 @@ exports.search = async (req, res) => {
       },
       where: {
         title: {
+          // postgre query search
+          [Op.iLike]: '%' + req.params.target + '%',
+        },
+        title: {
+          // mysql query search
           [Op.like]: '%' + req.params.target + '%',
         },
       },
