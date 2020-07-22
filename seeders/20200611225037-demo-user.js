@@ -6,18 +6,19 @@ module.exports = {
       'users',
       [
         {
-          fullName: 'Iis Is',
-          email: 'iis@gmail.com',
-          password: 'lovespiderman',
+          fullName: 'admin',
+          isAdmin: true,
+          email: 'admin@gmail.com',
+          password: '$2b$10$wmowvKM6afbB421Aop7xi.6puxTz79NeU7XtctrtRQzRo9nzQYZO2',
           gender: 'male',
           phone: '083896831233',
           address: 'Jln. Marvel Universe, RT.21 RW.69',
-          subscribe: 'true',
+          subscribe: true,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
       ],
-      {}
+      {},
     );
   },
 

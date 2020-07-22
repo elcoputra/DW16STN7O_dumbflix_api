@@ -3,23 +3,24 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert(
-      'transactions',
+      'categories',
       [
         {
-          startDate: '30/03/2020',
-          dueDate: '30/04/2020',
-          userId: 1,
-          attache: 'bca.jpg',
-          status: 'Approved',
+          name: 'Movies',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          name: 'TV Series',
           createdAt: new Date(),
           updatedAt: new Date(),
         },
       ],
-      {}
+      {},
     );
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('transactions', null, {});
+    return queryInterface.bulkDelete('users', null, {});
   },
 };
