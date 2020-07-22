@@ -23,12 +23,6 @@ module.exports = {
       thumbnail: {
         type: Sequelize.STRING,
       },
-      linkTrailer: {
-        type: Sequelize.STRING,
-      },
-      thumbnailTrailer: {
-        type: Sequelize.STRING,
-      },
       year: {
         type: Sequelize.INTEGER,
       },
