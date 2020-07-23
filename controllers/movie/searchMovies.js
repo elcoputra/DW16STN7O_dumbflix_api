@@ -17,10 +17,10 @@ exports.search = async (req, res) => {
           // postgre query search
           [Op.iLike]: '%' + req.params.target + '%',
         },
-        title: {
-          // mysql query search
-          [Op.like]: '%' + req.params.target + '%',
-        },
+        // title: {
+        //   // mysql query search
+        //   [Op.like]: '%' + req.params.target + '%',
+        // },
       },
       attributes: {
         exclude: ['createdAt', 'updatedAt'],
